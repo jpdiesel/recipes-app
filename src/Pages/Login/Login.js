@@ -1,6 +1,24 @@
 import React from 'react';
 
 function Login() {
+  // onChangeHandler = ({ name, value }) => {
+  //   this.setState({
+  //     [name]: value,
+  //   }, () => { this.btnCheck(); });
+  // };
+
+  // btnCheck = () => {
+  //   const regexValidation = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+  //   // Referência do Regex: https://regexr.com/3e48o
+  //   const { playerName, playerEmail } = this.state;
+
+  //   if (playerName.length !== 0 && regexValidation.test(playerEmail)) {
+  //     this.setState({ btnDisabled: false });
+  //   } else {
+  //     this.setState({ btnDisabled: true });
+  //   }
+  // };
+
   return (
     <form>
       <label htmlFor="email-login">
