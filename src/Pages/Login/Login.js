@@ -1,23 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Login() {
-  // onChangeHandler = ({ name, value }) => {
-  //   this.setState({
-  //     [name]: value,
-  //   }, () => { this.btnCheck(); });
-  // };
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
 
-  // btnCheck = () => {
-  //   const regexValidation = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-  //   // Referência do Regex: https://regexr.com/3e48o
-  //   const { playerName, playerEmail } = this.state;
+  const btnCheck = () => {
+    const regexValidation = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    // Referência do Regex: https://regexr.com/3e48o
+    const minSenha = 7;
 
-  //   if (playerName.length !== 0 && regexValidation.test(playerEmail)) {
-  //     this.setState({ btnDisabled: false });
-  //   } else {
-  //     this.setState({ btnDisabled: true });
-  //   }
-  // };
+    if (senha.length >= minSenha && regexValidation.test(email)) {
+      return false;
+    } return true;
+  };
 
   return (
     <form>
@@ -26,24 +21,26 @@ function Login() {
         <input
           type="text"
           id="email-login"
-          name="Email"
+          name="email"
           data-testid="email-input"
-          // value={ playerEmail }
+          value={ email }
+          onChange={ ({ target }) => setEmail(target.value) }
         />
       </label>
       <label htmlFor="email-login">
         Senha:
         <input
-          type="text"
+          type="password"
           id="senha-login"
-          name="Senha"
+          name="senha"
           data-testid="password-input"
-          // value={ playerEmail }
+          value={ senha }
+          onChange={ ({ target }) => setSenha(target.value) }
         />
         <button
           type="submit"
           data-testid="login-submit-btn"
-          // disabled={ btnDisabled }
+          disabled={ btnCheck() }
           // onClick={ onClickHandler }
         >
           Enter
