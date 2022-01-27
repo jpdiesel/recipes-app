@@ -2,18 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Footer from '../../Components/Footer';
 
-function Profile({ history }) {
+function Explore({ history }) {
   return (
     <>
-      <h1>Profile</h1>
+      <h1>Explore</h1>
       <Footer history={ history } />
     </>
   );
 }
 
-Profile.propTypes = {
+Explore.propTypes = {
   history: PropTypes.shape({
   }).isRequired,
 };
 
-export default Profile;
+export default Explore;

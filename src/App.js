@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import DoneRecipes from './Pages/DoneRecipes/DoneRecipes';
 import Drinks from './Pages/Drinks/Drinks';
-import Explore from './Pages/Eexplore/Eexplore';
+import Explore from './Pages/Explore/Explore';
 import FavoriteRecipes from './Pages/FavoriteRecipes/FavoriteRecipes';
 import Foods from './Pages/Foods/Foods';
 import Login from './Pages/Login/Login';
