@@ -1,13 +1,12 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import Footer from '../../Components/Footer';
+import PropTypes from 'prop-types';
+import Header from '../../Components/Header';
 
 function Explore({ history }) {
   return (
-    <>
-      <h1>Explore</h1>
-      <Footer history={ history } />
-    </>
+    <div>
+      <Header history={ history } title="Explore" showSearchButton={ false } />
+    </div>
   );
 }
 
