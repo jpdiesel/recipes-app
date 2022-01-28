@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import context from '../Context/Context';
 import Profile from '../images/profileIcon.svg';
 import Search from '../images/searchIcon.svg';
-import context from '../Context/Context';
 
 function Header({ history, title, showSearchButton }) {
   console.log(history);
