@@ -5,7 +5,8 @@ import Footer from '../../Components/Footer';
 import Header from '../../Components/Header';
 
 function Profile({ history }) {
-  const { email } = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem('user'));
+  const email = (user ? user.email : 'teste@teste.com');
   const removeFromLocalStorage = () => {
     localStorage.clear();
     history.push('/');
