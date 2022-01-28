@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Footer from '../../Components/Footer';
+import Footer from '../../../../Components/Footer';
 
 function ExFoodsIngredients({ history }) {
   return (
