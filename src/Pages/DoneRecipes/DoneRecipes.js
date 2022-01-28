@@ -1,9 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import Header from '../../Components/Header';
 
-function DoneRecipes() {
+function DoneRecipes({ history }) {
   return (
-    <h1>DoneRecipes</h1>
+    <div>
+      <Header history={ history } title="Done Recipes" showSearchButton={ false } />
+    </div>
   );
 }
+
+DoneRecipes.propTypes = {
+  history: PropTypes.shape({
+  }).isRequired,
+};
 
 export default DoneRecipes;

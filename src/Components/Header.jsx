@@ -1,28 +1,60 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Profile from '../images/profileIcon.svg';
 import Search from '../images/searchIcon.svg';
+import context from '../Context/Context';
 
-function Header({ history }) {
-  useEffect(() => {
-    console.log(history);
-  }, []);
-
+function Header({ history, title, showSearchButton }) {
+  console.log(history);
+  const { showInput, setShowInput } = useContext(context);
+  const inputVisibility = () => {
+    if (showInput) {
+      setShowInput(false);
+    } else {
+      setShowInput(true);
+    }
+  };
   return (
     <div>
-      <button
-        type="button"
-        data-testid="profile-top-btn"
-      >
-        <img src={ Profile } alt="a" />
-      </button>
-      <h1 data-testid="page-title">a</h1>
-      <button
-        type="button"
-        data-testid="search-top-btn"
-      >
-        <img src={ Search } alt="b" />
-      </button>
+      <Link to="/profile">
+        <button
+          type="button"
+          data-testid="profile-top-btn"
+          src={ Profile }
+        >
+          <img src={ Profile } alt="a" />
+        </button>
+      </Link>
+      <h1 data-testid="page-title">{ title }</h1>
+      {
+        showSearchButton
+          ? (
+            <button
+              type="button"
+              data-testid="search-top-btn"
+              src={ Search }
+              onClick={ () => inputVisibility() }
+            >
+              <img src={ Search } alt="b" />
+            </button>
+          )
+          : (
+            null
+          )
+      }
+      {
+        showInput && showSearchButton
+          ? (
+            <input
+              type="search"
+              data-testid="search-input"
+            />
+          )
+          : (
+            null
+          )
+      }
     </div>
   );
 }
