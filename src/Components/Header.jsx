@@ -25,7 +25,7 @@ function Header({ history, title, showSearchButton }) {
             data-testid="profile-top-btn"
             src={ Profile }
           >
-            <img src={ Profile } alt="a" />
+            <img src={ Profile } alt="Perfil" />
           </button>
         </Link>
         <h1 data-testid="page-title">{ title }</h1>
@@ -38,7 +38,7 @@ function Header({ history, title, showSearchButton }) {
                 src={ Search }
                 onClick={ () => inputVisibility() }
               >
-                <img src={ Search } alt="b" />
+                <img src={ Search } alt="Procurar" />
               </button>
             )
             : (
