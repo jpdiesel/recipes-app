@@ -1,0 +1,17 @@
+header {
+  background-color: #efefef;
+  display: flex;
+  flex-direction: column;
+}
+
+.headerUp {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+header button {
+  border: none;
+  height: 40px;
+}
