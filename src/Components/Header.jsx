@@ -6,8 +6,7 @@ import Profile from '../images/profileIcon.svg';
 import Search from '../images/searchIcon.svg';
 import './Header.css';
 
-function Header({ history, title, showSearchButton }) {
-  console.log(history);
+function Header({ title, showSearchButton }) {
   const { showInput, setShowInput } = useContext(context);
   const inputVisibility = () => {
     if (showInput) {
@@ -65,11 +64,11 @@ function Header({ history, title, showSearchButton }) {
   );
 }
 
-export default Header;
-
 Header.propTypes = {
   history: PropTypes.shape({
     location: PropTypes.func,
     pathname: PropTypes.func,
   }),
 }.isRequired;
+
+export default Header;
