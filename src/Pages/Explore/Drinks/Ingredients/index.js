@@ -6,7 +6,6 @@ import Header from '../../../../Components/Header';
 function ExDrinksIngredients({ history }) {
   return (
     <>
-      <h1>ExDrinksIngredients</h1>
       <Header
         history={ history }
         title="Explore Ingredients"
