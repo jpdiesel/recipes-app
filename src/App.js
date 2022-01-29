@@ -3,9 +3,9 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import DoneRecipes from './Pages/DoneRecipes/DoneRecipes';
 import Drinks from './Pages/Drinks/Drinks';
-import Explore from './Pages/Explore/Explore';
 import ExploreDrinks from './Pages/Explore/Drinks';
 import ExDrinksIngredients from './Pages/Explore/Drinks/Ingredients';
+import Explore from './Pages/Explore/Explore';
 import ExploreFoods from './Pages/Explore/Foods';
 import ExFoodsIngredients from './Pages/Explore/Foods/Ingredients';
 import ExFooNationalities from './Pages/Explore/Foods/Nationalities';
@@ -22,6 +22,8 @@ function App() {
         <Route exact path="/" component={ Login } />
         <Route exact path="/foods" component={ Foods } />
         <Route exact path="/drinks" component={ Drinks } />
+        {/* <Route exact path={ `/foods/${id}` } />
+        <Route exact path={ `/drinks/${id}` } /> */}
         <Route exact path="/explore" component={ Explore } />
         <Route exact path="/explore/foods" component={ ExploreFoods } />
         <Route exact path="/explore/drinks" component={ ExploreDrinks } />
