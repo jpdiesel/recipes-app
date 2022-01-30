@@ -1,24 +1,28 @@
-const RANDOM_FOOD_URL = 'https://www.themealdb.com/api/json/v1/1/random.php';
-const RANDOM_DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
+// import { useContext } from 'react';
+// import context from '../Context/Context';
 
-function randomFoodsApi() {
-  try {
-    const apiFetch = fetch(RANDOM_FOOD_URL);
-    const json = apiFetch.then((response) => response.json());
-    return json;
-  } catch (e) {
-    console.error(e);
-  }
-}
+// const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
-export function randomDrinksApi() {
-  try {
-    const apiFetch = fetch(RANDOM_DRINK_URL);
-    const json = apiFetch.then((response) => response.json());
-    return json;
-  } catch (e) {
-    console.error(e);
-  }
-}
+// const useSetHandleData = (data) => {
+//   const { setResult } = useContext(context);
+//   if (!data.length) {
+//     global.alert(errorMessage);
+//   }
+//   setResult(data);
+// };
 
-export default randomFoodsApi;
+// function api(url, input) {
+//   try {
+//     const apiFetch = fetch(url);
+//     const json = apiFetch.then((response) => response.json());
+//     if (input) {
+//       json.then((data) => useSetHandleData(data));
+//     } else {
+//       return json;
+//     }
+//   } catch {
+//     global.alert(errorMessage);
+//   }
+// }
+
+// export default api;

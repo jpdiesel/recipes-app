@@ -4,14 +4,19 @@ import context from '../Context/Context';
 import SearchCard from './SearchCard';
 
 function SearchBar({ history, title, searchInput }) {
+  const FOOD_INGREDIENTS = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+  const FOOD_NAMES = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
+  const FIRST_LETTER_FOOD = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
+  const DRINK_INGREDIENTS = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+  const DRINK_NAMES = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
+  const FIRST_LETTER_DRINKS = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
+
   const [checked, setChecked] = useState('');
   const {
-    foodIngredientsAPI,
-    foodNamesAPI,
-    firstLetterFoodAPI,
-    drinkIngredientsAPI,
-    drinkNamesAPI,
-    firstLetterDrinkAPI,
+    api,
+  //   drinkIngredientsAPI,
+  //   drinkNamesAPI,
+  //   firstLetterDrinkAPI,
   } = useContext(context);
   const handleClick = ({ target: { value } }) => {
     setChecked(value);
@@ -20,16 +25,16 @@ function SearchBar({ history, title, searchInput }) {
     if (title === 'Foods') {
       switch (checked) {
       case 'ingredient':
-        foodIngredientsAPI(searchInput);
+        api(FOOD_INGREDIENTS, searchInput);
         break;
       case 'name':
-        foodNamesAPI(searchInput);
+        api(FOOD_NAMES, searchInput);
         break;
       case 'letter':
         if (searchInput.length > 1) {
           global.alert('Your search must have only 1 (one) character');
         }
-        firstLetterFoodAPI(searchInput);
+        api(FIRST_LETTER_FOOD, searchInput);
         break;
       default:
         console.log('Default');
@@ -38,16 +43,16 @@ function SearchBar({ history, title, searchInput }) {
     if (title === 'Drinks') {
       switch (checked) {
       case 'ingredient':
-        drinkIngredientsAPI(searchInput);
+        api(DRINK_INGREDIENTS, searchInput);
         break;
       case 'name':
-        drinkNamesAPI(searchInput);
+        api(DRINK_NAMES, searchInput);
         break;
       case 'letter':
         if (searchInput.length > 1) {
           global.alert('Your search must have only 1 (one) character');
         }
-        firstLetterDrinkAPI(searchInput);
+        api(FIRST_LETTER_DRINKS, searchInput);
         break;
       default:
         console.log('Default');

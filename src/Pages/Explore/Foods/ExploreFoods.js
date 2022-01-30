@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom';
 import Footer from '../../../Components/Footer';
 import Header from '../../../Components/Header';
 import context from '../../../Context/Context';
-import randomFoodsApi from '../../../services/apis';
+
+const RANDOM_FOOD_URL = 'https://www.themealdb.com/api/json/v1/1/random.php';
 
 function ExploreFoods({ history }) {
-  const { randomFood, setRandomFood } = useContext(context);
+  const { randomFood, setRandomFood, api } = useContext(context);
   useEffect(() => {
     (async () => {
-      const { meals } = await randomFoodsApi();
+      const { meals } = await api(RANDOM_FOOD_URL);
       setRandomFood(meals);
     })();
-  }, [setRandomFood]);
+  }, [setRandomFood, api]);
   return (
     <>
       <Header history={ history } title="Explore Foods" />

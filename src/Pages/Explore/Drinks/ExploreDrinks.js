@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom';
 import Footer from '../../../Components/Footer';
 import Header from '../../../Components/Header';
 import context from '../../../Context/Context';
-import { randomDrinksApi } from '../../../services/apis';
+
+const RANDOM_DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
 
 function ExploreDrinks({ history }) {
-  const { randomDrink, setRandomDrink } = useContext(context);
+  const { randomDrink, setRandomDrink, api } = useContext(context);
   useEffect(() => {
     (async () => {
-      const { drinks } = await randomDrinksApi();
+      const { drinks } = await api(RANDOM_DRINK_URL);
       setRandomDrink(drinks);
     })();
-  }, [setRandomDrink]);
+  }, [setRandomDrink, api]);
   return (
     <>
       <Header history={ history } title="Explore Drinks" showSearchButton={ false } />

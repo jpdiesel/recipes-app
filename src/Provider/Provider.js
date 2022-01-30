@@ -15,38 +15,25 @@ function Provider({ children }) {
     setResult(data);
   };
 
-  const foodIngredientsAPI = async (input) => fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${input}`)
-    .then((response) => response.json()).then((data) => handleData(data))
-    .catch(() => global.alert(errorMessage));
-  const foodNamesAPI = async (input) => fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${input}`)
-    .then((response) => response.json()).then((data) => handleData(data))
-    .catch(() => global.alert(errorMessage));
-  const firstLetterFoodAPI = async (input) => fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${input}`)
-    .then((response) => response.json()).then((data) => handleData(data))
-    .catch(() => global.alert(errorMessage));
-  const drinkNamesAPI = async (input) => fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${input}`)
-    .then((response) => response.json()).then((data) => handleData(data))
-    .catch(() => global.alert(errorMessage));
-  const drinkIngredientsAPI = async (input) => fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${input}`)
-    .then((response) => response.json()).then((data) => handleData(data))
-    .catch(() => global.alert(errorMessage));
-  const firstLetterDrinkAPI = async (input) => fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${input}`)
-    .then((response) => response.json()).then((data) => handleData(data))
-    .catch(() => global.alert(errorMessage));
-  const allFoodssAPI = async () => fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
-    .then((response) => response.json()).then((data) => setResult(data))
-    .catch(() => global.alert(errorMessage));
+  const api = (url, input) => {
+    try {
+      const apiFetch = fetch(url);
+      const json = apiFetch.then((response) => response.json());
+      if (input) {
+        json.then((data) => handleData(data));
+      } else {
+        return json;
+      }
+    } catch {
+      global.alert(errorMessage);
+    }
+  };
 
   const contextValue = {
     showInput,
     setShowInput,
-    foodIngredientsAPI,
-    foodNamesAPI,
-    firstLetterFoodAPI,
-    drinkIngredientsAPI,
-    drinkNamesAPI,
-    firstLetterDrinkAPI,
-    allFoodssAPI,
+    setResult,
+    api,
     setRandomDrink,
     setRandomFood,
     randomDrink,
