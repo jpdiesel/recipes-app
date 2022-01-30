@@ -7,20 +7,21 @@ const DRINK_MAX_RESULT = 12;
 const CATEGORIES_MAX_RESULT = 5;
 
 export default function DrinkCard({ cocktails }) {
-  const { categories, setCategories, api } = useContext(context);
+  const { drinkCategories, setDrinkCategories, api } = useContext(context);
   useEffect(() => {
     (async () => {
       const { drinks } = await api(DRINK_CATEGORIES);
-      setCategories(drinks);
+      setDrinkCategories(drinks);
     })();
-  }, [setCategories, api]);
+  }, [setDrinkCategories, api]);
   return (
     <div>
-      { categories.slice(0, CATEGORIES_MAX_RESULT).map((drink, index) => (
+      { drinkCategories.slice(0, CATEGORIES_MAX_RESULT).map((drink, index) => (
         <button
           type="button"
           data-testid={ `${drink.strCategory}-category-filter` }
           key={ index }
+          onClick
         >
           { drink.strCategory }
         </button>
