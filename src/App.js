@@ -1,14 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import DrinksDetails from './Pages/Details/DrinksDetails';
+import FoodDetails from './Pages/Details/FoodDetails';
 import DoneRecipes from './Pages/DoneRecipes/DoneRecipes';
 import Drinks from './Pages/Drinks/Drinks';
-import ExploreDrinks from './Pages/Explore/Drinks';
-import ExDrinksIngredients from './Pages/Explore/Drinks/Ingredients';
+import ExploreDrinks from './Pages/Explore/Drinks/ExploreDrinks';
+import ExDrinksIngredients from './Pages/Explore/Drinks/Ingredients/ExDrinksIngredients';
 import Explore from './Pages/Explore/Explore';
-import ExploreFoods from './Pages/Explore/Foods';
-import ExFoodsIngredients from './Pages/Explore/Foods/Ingredients';
-import ExFooNationalities from './Pages/Explore/Foods/Nationalities';
+import ExploreFoods from './Pages/Explore/Foods/ExploreFoods';
+import ExFoodsIngredients from './Pages/Explore/Foods/Ingredients/ExFoodsIngredients';
+import ExFooNationalities from './Pages/Explore/Foods/Nationalities/ExFoodsNationalities';
 import FavoriteRecipes from './Pages/FavoriteRecipes/FavoriteRecipes';
 import Foods from './Pages/Foods/Foods';
 import Login from './Pages/Login/Login';
@@ -22,8 +24,8 @@ function App() {
         <Route exact path="/" component={ Login } />
         <Route exact path="/foods" component={ Foods } />
         <Route exact path="/drinks" component={ Drinks } />
-        {/* <Route exact path={ `/foods/${id}` } />
-        <Route exact path={ `/drinks/${id}` } /> */}
+        <Route exact path="/foods/:id" component={ FoodDetails } />
+        <Route exact path="/drinks/:id" component={ DrinksDetails } />
         <Route exact path="/explore" component={ Explore } />
         <Route exact path="/explore/foods" component={ ExploreFoods } />
         <Route exact path="/explore/drinks" component={ ExploreDrinks } />
