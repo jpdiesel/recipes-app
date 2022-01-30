@@ -19,6 +19,7 @@ function SearchCard({ history }) {
               src={ meal.strMealThumb }
               alt={ meal.strMeal }
               data-testid={ `${index}-card-img` }
+              className="imagem"
             />
             <h2 data-testid={ `${index}-card-name` }>{meal.strMeal}</h2>
           </div>
@@ -35,6 +36,7 @@ function SearchCard({ history }) {
               src={ drink.strDrinkThumb }
               alt={ drink.strDrink }
               data-testid={ `${index}-card-img` }
+              className="imagem"
             />
             <h2 data-testid={ `${index}-card-name` }>{drink.strDrink}</h2>
           </div>

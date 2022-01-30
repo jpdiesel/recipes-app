@@ -57,6 +57,7 @@ export default function FoodCard({ foods }) {
                 data-testid={ `${index}-card-img` }
                 src={ food.strMealThumb }
                 alt={ food.strMeal }
+                className="imagem"
               />
             </div>
           ))
@@ -69,6 +70,7 @@ export default function FoodCard({ foods }) {
                 data-testid={ `${index}-card-img` }
                 src={ food.strMealThumb }
                 alt={ food.strMeal }
+                className="imagem"
               />
             </div>
           )))}

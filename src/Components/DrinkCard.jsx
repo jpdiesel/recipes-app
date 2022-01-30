@@ -33,6 +33,7 @@ export default function DrinkCard({ cocktails }) {
             data-testid={ `${index}-card-img` }
             src={ drink.strDrinkThumb }
             alt={ drink.strDrink }
+            className="imagem"
           />
         </div>
       )) }
