@@ -5,9 +5,17 @@ import context from '../Context/Context';
 function Provider({ children }) {
   const [showInput, setShowInput] = useState(false);
   const [result, setResult] = useState('');
+  const [foodCard, setFoodCard] = useState([]);
+  const [drinkCard, setDrinkCard] = useState([]);
+  const [foodCategories, setFoodCategories] = useState([]);
+  const [drinkCategories, setDrinkCategories] = useState([]);
+  const [searchFoodCategories, setSearchFoodCategories] = useState([]);
+  const [searchDrinkCategories, setSearchDrinkCategories] = useState([]);
+  const [toggleSearchFoodCat, setToggleSearchFoodCat] = useState(false);
   const [randomDrink, setRandomDrink] = useState([]);
   const [randomFood, setRandomFood] = useState([]);
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
+
   const handleData = (data) => {
     if (!data.length) {
       global.alert(errorMessage);
@@ -36,8 +44,22 @@ function Provider({ children }) {
     api,
     setRandomDrink,
     setRandomFood,
+    foodCard,
+    setFoodCard,
+    drinkCard,
+    setDrinkCard,
     randomDrink,
     randomFood,
+    foodCategories,
+    setFoodCategories,
+    drinkCategories,
+    setDrinkCategories,
+    searchDrinkCategories,
+    searchFoodCategories,
+    setSearchDrinkCategories,
+    setSearchFoodCategories,
+    toggleSearchFoodCat,
+    setToggleSearchFoodCat,
     result,
     errorMessage,
   };
