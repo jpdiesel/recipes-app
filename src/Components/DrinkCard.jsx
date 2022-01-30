@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import context from '../Context/Context';
 
 const DRINK_CATEGORIES = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
@@ -27,14 +28,16 @@ export default function DrinkCard({ cocktails }) {
         </button>
       )) }
       { cocktails.slice(0, DRINK_MAX_RESULT).map((drink, index) => (
-        <div data-testid={ `${index}-recipe-card` } key={ index }>
-          <p data-testid={ `${index}-card-name` }>{ drink.strDrink }</p>
-          <img
-            data-testid={ `${index}-card-img` }
-            src={ drink.strDrinkThumb }
-            alt={ drink.strDrink }
-          />
-        </div>
+        <Link key={ index } to={ `/drinks/${drink.idDrink}` }>
+          <div data-testid={ `${index}-recipe-card` } key={ index }>
+            <p data-testid={ `${index}-card-name` }>{ drink.strDrink }</p>
+            <img
+              data-testid={ `${index}-card-img` }
+              src={ drink.strDrinkThumb }
+              alt={ drink.strDrink }
+            />
+          </div>
+        </Link>
       )) }
     </div>
   );

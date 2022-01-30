@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import context from '../Context/Context';
 
 const FOOD_CATEGORIES = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
@@ -26,6 +27,7 @@ export default function FoodCard({ foods }) {
 
   const searchCategories = async (category) => {
     const CATEGORY_API = `www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+    console.log(category);
     const { meals } = await api(CATEGORY_API);
     setSearchFoodCategories(meals);
     if (toggleSearchFoodCat) {
@@ -49,28 +51,32 @@ export default function FoodCard({ foods }) {
       )) }
       { searchFoodCategories.length > 1
         ? (
-          searchFoodCategories.map((food) => (
-            <div data-testid={ `${index}-recipe-card` } key={ index }>
-              <p data-testid={ `${index}-card-name` }>{ food.strMeal }</p>
-              <img
-                key={ index }
-                data-testid={ `${index}-card-img` }
-                src={ food.strMealThumb }
-                alt={ food.strMeal }
-              />
-            </div>
+          searchFoodCategories.map((food, index) => (
+            <Link key={ index } to={ `/foods/${food.idMeal}` }>
+              <div data-testid={ `${index}-recipe-card` } key={ index }>
+                <p data-testid={ `${index}-card-name` }>{ food.strMeal }</p>
+                <img
+                  key={ index }
+                  data-testid={ `${index}-card-img` }
+                  src={ food.strMealThumb }
+                  alt={ food.strMeal }
+                />
+              </div>
+            </Link>
           ))
         )
         : (
           foods.slice(0, FOOD_MAX_RESULT).map((food, index) => (
-            <div data-testid={ `${index}-recipe-card` } key={ index }>
-              <p data-testid={ `${index}-card-name` }>{ food.strMeal }</p>
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ food.strMealThumb }
-                alt={ food.strMeal }
-              />
-            </div>
+            <Link key={ index } to={ `/foods/${food.idMeal}` }>
+              <div data-testid={ `${index}-recipe-card` } key={ index }>
+                <p data-testid={ `${index}-card-name` }>{ food.strMeal }</p>
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ food.strMealThumb }
+                  alt={ food.strMeal }
+                />
+              </div>
+            </Link>
           )))}
     </div>
   );

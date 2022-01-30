@@ -5,9 +5,7 @@ import context from '../Context/Context';
 
 function SearchCard({ history }) {
   const { result } = useContext(context);
-  const { meals } = result;
-  const { drinks } = result;
-  // if (meals) console.log(meals[0].idMeal);
+  const { meals, drinks } = result;
   const MAX_RESULTS = 12;
   const mealResults = () => (
     <div>
