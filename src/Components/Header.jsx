@@ -7,7 +7,7 @@ import Search from '../images/searchIcon.svg';
 import './Header.css';
 import SearchBar from './SearchBar';
 
-function Header({ title, showSearchButton }) {
+function Header({ history, title, showSearchButton }) {
   const { showInput, setShowInput } = useContext(context);
   const [searchInput, setSearchInput] = useState('');
   const inputVisibility = () => {
@@ -72,7 +72,7 @@ function Header({ title, showSearchButton }) {
       {
         showInput && showSearchButton
           ? (
-            <SearchBar title={ title } searchInput={ searchInput } />
+            <SearchBar history={ history } title={ title } searchInput={ searchInput } />
           )
           : (
             null

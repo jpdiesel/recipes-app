@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import context from '../Context/Context';
 import SearchCard from './SearchCard';
 
-function SearchBar({ title, searchInput }) {
+function SearchBar({ history, title, searchInput }) {
   const [checked, setChecked] = useState('');
   const {
     foodIngredientsAPI,
@@ -101,7 +101,7 @@ function SearchBar({ title, searchInput }) {
         >
           Search
         </button>
-        <SearchCard />
+        <SearchCard history={ history } />
       </div>
     </form>
   );
@@ -110,6 +110,9 @@ function SearchBar({ title, searchInput }) {
 SearchBar.propTypes = {
   searchInput: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default SearchBar;

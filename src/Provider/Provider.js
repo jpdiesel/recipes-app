@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import context from '../Context/Context';
 
 function Provider({ children }) {
   const [showInput, setShowInput] = useState(false);
   const [result, setResult] = useState('');
+  const [randomDrink, setRandomDrink] = useState([]);
+  const [randomFood, setRandomFood] = useState([]);
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
   const handleData = (data) => {
     if (!data.length) {
@@ -34,6 +36,7 @@ function Provider({ children }) {
   const allFoodssAPI = async () => fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
     .then((response) => response.json()).then((data) => setResult(data))
     .catch(() => global.alert(errorMessage));
+
   const contextValue = {
     showInput,
     setShowInput,
@@ -44,6 +47,10 @@ function Provider({ children }) {
     drinkNamesAPI,
     firstLetterDrinkAPI,
     allFoodssAPI,
+    setRandomDrink,
+    setRandomFood,
+    randomDrink,
+    randomFood,
     result,
     errorMessage,
   };
