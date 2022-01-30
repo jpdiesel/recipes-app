@@ -5,6 +5,9 @@ import context from '../Context/Context';
 function Provider({ children }) {
   const [showInput, setShowInput] = useState(false);
   const [result, setResult] = useState('');
+  const [foodCard, setFoodCard] = useState([]);
+  const [drinkCard, setDrinkCard] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [randomDrink, setRandomDrink] = useState([]);
   const [randomFood, setRandomFood] = useState([]);
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
@@ -36,8 +39,14 @@ function Provider({ children }) {
     api,
     setRandomDrink,
     setRandomFood,
+    foodCard,
+    setFoodCard,
+    drinkCard,
+    setDrinkCard,
     randomDrink,
     randomFood,
+    categories,
+    setCategories,
     result,
     errorMessage,
   };
