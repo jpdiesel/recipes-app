@@ -5,7 +5,7 @@ import Header from '../../../../Components/Header';
 import IngredientCard from '../../../../Components/IngredientCard';
 import context from '../../../../Context/Context';
 
-const FOOD_INGREDIENTS = 'www.themealdb.com/api/json/v1/1/list.php?i=list';
+const FOOD_INGREDIENTS = 'https://www.themealdb.com/api/json/v1/1/list.php?i=list';
 
 function ExFoodsIngredients({ history }) {
   const { foodsIngredients, setFoodsIngredients, api } = useContext(context);
