@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import context from '../Context/Context';
-import SearchCard from './SearchCard';
 
-function SearchBar({ history, title, searchInput }) {
+function SearchBar({ title, searchInput }) {
   const FOOD_INGREDIENTS = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
   const FOOD_NAMES = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
   const FIRST_LETTER_FOOD = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
@@ -14,6 +13,8 @@ function SearchBar({ history, title, searchInput }) {
   const [checked, setChecked] = useState('');
   const {
     api,
+    setProcurado,
+    setSearchInput,
   //   drinkIngredientsAPI,
   //   drinkNamesAPI,
   //   firstLetterDrinkAPI,
@@ -22,6 +23,8 @@ function SearchBar({ history, title, searchInput }) {
     setChecked(value);
   };
   const handleSearch = () => {
+    setSearchInput('');
+    setProcurado(true);
     if (title === 'Foods') {
       switch (checked) {
       case 'ingredient':
@@ -106,7 +109,7 @@ function SearchBar({ history, title, searchInput }) {
         >
           Search
         </button>
-        <SearchCard history={ history } />
+        {/* <SearchCard history={ history } /> */}
       </div>
     </form>
   );
