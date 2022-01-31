@@ -5,7 +5,7 @@ import Header from '../../../../Components/Header';
 import IngredientCard from '../../../../Components/IngredientCard';
 import context from '../../../../Context/Context';
 
-const DRINKS_INGREDIENTS = 'www.thecocktaildb.com/api/json/v1/1/list.php?i=list';
+const DRINKS_INGREDIENTS = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list';
 
 function ExDrinksIngredients({ history }) {
   const { drinksIngredients, setDrinksIngredients, api } = useContext(context);
