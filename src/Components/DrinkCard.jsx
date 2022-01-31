@@ -25,7 +25,7 @@ export default function DrinkCard({ cocktails }) {
       const { drinks } = await api(DRINK_CATEGORIES);
       setDrinkCategories(drinks);
     })();
-  }, [setDrinkCategories, api]);
+  }, []);
 
   const searchCategories = async (category) => {
     setChangeDrinkCategory(category);

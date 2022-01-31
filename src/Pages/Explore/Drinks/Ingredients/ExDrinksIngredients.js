@@ -14,7 +14,7 @@ function ExDrinksIngredients({ history }) {
       const { drinks } = await api(DRINKS_INGREDIENTS);
       setDrinksIngredients(drinks);
     })();
-  }, [api, setDrinksIngredients]);
+  }, []);
   return (
     <>
       <Header
@@ -22,7 +22,7 @@ function ExDrinksIngredients({ history }) {
         title="Explore Ingredients"
         showSearchButton={ false }
       />
-      <IngredientCard drinks={ drinksIngredients } />
+      <IngredientCard drinks={ (drinksIngredients || []) } />
       <Footer history={ history } />
     </>
   );

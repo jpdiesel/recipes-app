@@ -14,7 +14,7 @@ function ExploreDrinks({ history }) {
       const { drinks } = await api(RANDOM_DRINK_URL);
       setRandomDrink(drinks);
     })();
-  }, [setRandomDrink, api]);
+  }, []);
   return (
     <>
       <Header history={ history } title="Explore Drinks" showSearchButton={ false } />
