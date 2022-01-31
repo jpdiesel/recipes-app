@@ -11,7 +11,12 @@ function Provider({ children }) {
   const [drinkCategories, setDrinkCategories] = useState([]);
   const [searchFoodCategories, setSearchFoodCategories] = useState([]);
   const [searchDrinkCategories, setSearchDrinkCategories] = useState([]);
+  const [foodsIngredients, setFoodsIngredients] = useState([]);
+  const [drinksIngredients, setDrinksIngredients] = useState([]);
   const [toggleSearchFoodCat, setToggleSearchFoodCat] = useState(false);
+  const [toggleSearchDrinkCat, setToggleSearchDrinkCat] = useState(false);
+  const [changeFoodCategory, setChangeFoodCategory] = useState('');
+  const [changeDrinkCategory, setChangeDrinkCategory] = useState('');
   const [randomDrink, setRandomDrink] = useState([]);
   const [randomFood, setRandomFood] = useState([]);
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
@@ -60,6 +65,16 @@ function Provider({ children }) {
     setSearchFoodCategories,
     toggleSearchFoodCat,
     setToggleSearchFoodCat,
+    foodsIngredients,
+    setFoodsIngredients,
+    drinksIngredients,
+    setDrinksIngredients,
+    toggleSearchDrinkCat,
+    setToggleSearchDrinkCat,
+    changeFoodCategory,
+    setChangeFoodCategory,
+    changeDrinkCategory,
+    setChangeDrinkCategory,
     result,
     errorMessage,
   };
