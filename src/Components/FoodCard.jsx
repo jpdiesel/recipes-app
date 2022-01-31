@@ -16,6 +16,8 @@ export default function FoodCard({ foods }) {
     setSearchFoodCategories,
     toggleSearchFoodCat,
     setToggleSearchFoodCat,
+    changeFoodCategory,
+    setChangeFoodCategory,
   } = useContext(context);
 
   useEffect(() => {
@@ -26,19 +28,30 @@ export default function FoodCard({ foods }) {
   }, [setFoodCategories, api]);
 
   const searchCategories = async (category) => {
-    const CATEGORY_API = `www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
-    console.log(category);
-    const { meals } = await api(CATEGORY_API);
-    setSearchFoodCategories(meals);
-    if (toggleSearchFoodCat) {
+    setChangeFoodCategory(category);
+    if (toggleSearchFoodCat && changeFoodCategory === category) {
       setToggleSearchFoodCat(false);
     } else {
       setToggleSearchFoodCat(true);
+      const CATEGORY_API = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+      const { meals } = await api(CATEGORY_API);
+      setSearchFoodCategories(meals);
     }
+  };
+
+  const allCategories = () => {
+    setToggleSearchFoodCat(false);
   };
 
   return (
     <div>
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ () => allCategories() }
+      >
+        All
+      </button>
       { foodCategories.slice(0, CATEGORIES_MAX_RESULT).map((food, index) => (
         <button
           type="button"
@@ -49,9 +62,9 @@ export default function FoodCard({ foods }) {
           { food.strCategory }
         </button>
       )) }
-      { searchFoodCategories.length > 1
+      { searchFoodCategories.length >= 1 && toggleSearchFoodCat
         ? (
-          searchFoodCategories.map((food, index) => (
+          searchFoodCategories.slice(0, FOOD_MAX_RESULT).map((food, index) => (
             <Link key={ index } to={ `/foods/${food.idMeal}` }>
               <div data-testid={ `${index}-recipe-card` } key={ index }>
                 <p data-testid={ `${index}-card-name` }>{ food.strMeal }</p>
