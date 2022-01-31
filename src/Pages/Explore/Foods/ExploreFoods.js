@@ -8,13 +8,14 @@ import context from '../../../Context/Context';
 const RANDOM_FOOD_URL = 'https://www.themealdb.com/api/json/v1/1/random.php';
 
 function ExploreFoods({ history }) {
-  const { randomFood, setRandomFood, api } = useContext(context);
+  const { randomFood, setRandomFood, api, update, setUpdate } = useContext(context);
   useEffect(() => {
     (async () => {
       const { meals } = await api(RANDOM_FOOD_URL);
       setRandomFood(meals);
     })();
-  }, [setRandomFood, api]);
+  }, []);
+
   return (
     <>
       <Header history={ history } title="Explore Foods" />
@@ -22,6 +23,7 @@ function ExploreFoods({ history }) {
         <button
           type="button"
           data-testid="explore-by-ingredient"
+          onClick={ () => setUpdate(!update) }
         >
           By Ingredient
         </button>
@@ -30,6 +32,7 @@ function ExploreFoods({ history }) {
         <button
           type="button"
           data-testid="explore-by-nationality"
+          onClick={ () => setUpdate(!update) }
         >
           By Nationality
         </button>
@@ -37,7 +40,13 @@ function ExploreFoods({ history }) {
       { randomFood.length === 1
         ? (
           <Link to={ `/foods/${randomFood[0].idMeal}` }>
-            <button type="button" data-testid="explore-surprise">Surprise me!</button>
+            <button
+              type="button"
+              data-testid="explore-surprise"
+              onClick={ () => setUpdate(!update) }
+            >
+              Surprise me!
+            </button>
           </Link>)
         : (
           null

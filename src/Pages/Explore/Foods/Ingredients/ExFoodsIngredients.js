@@ -12,9 +12,9 @@ function ExFoodsIngredients({ history }) {
   useEffect(() => {
     (async () => {
       const { meals } = await api(FOOD_INGREDIENTS);
-      setDrinksIngredients(meals);
+      setFoodsIngredients(meals);
     })();
-  }, [api, setFoodsIngredients]);
+  }, []);
   return (
     <>
       <Header

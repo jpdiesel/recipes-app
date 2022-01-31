@@ -7,22 +7,24 @@ function SearchCard({ history }) {
   const { result } = useContext(context);
   const { meals, drinks } = result;
   const MAX_RESULTS = 12;
+  const MAX_FOOD_RESULT = 10;
   const mealResults = () => (
     <div>
       {meals.length === 1 ? history.push(`/foods/${meals[0].idMeal}`) : null}
-      {meals.slice(0, MAX_RESULTS).map((meal, index) => (
-        <Link to={ `/foods/${meal.idMeal}` } key={ meal.idMeal }>
-          <div data-testid={ `${index}-recipe-card` }>
-            <img
-              src={ meal.strMealThumb }
-              alt={ meal.strMeal }
-              data-testid={ `${index}-card-img` }
-              className="imagem"
-            />
-            <h2 data-testid={ `${index}-card-name` }>{meal.strMeal}</h2>
-          </div>
-        </Link>
-      ))}
+      {meals
+        .slice(0, MAX_FOOD_RESULT).map((meal, index) => (
+          <Link to={ `/foods/${meal.idMeal}` } key={ meal.idMeal }>
+            <div data-testid={ `${index}-recipe-card` }>
+              <img
+                src={ meal.strMealThumb }
+                alt={ meal.strMeal }
+                data-testid={ `${index}-card-img` }
+                className="imagem"
+              />
+              <h2 data-testid={ `${index}-card-name` }>{meal.strMeal}</h2>
+            </div>
+          </Link>
+        ))}
     </div>);
   const drinkResults = () => (
     <div>

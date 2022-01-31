@@ -25,7 +25,7 @@ export default function FoodCard({ foods }) {
       const { meals } = await api(FOOD_CATEGORIES);
       setFoodCategories(meals);
     })();
-  }, [setFoodCategories, api]);
+  }, []);
 
   const searchCategories = async (category) => {
     setChangeFoodCategory(category);

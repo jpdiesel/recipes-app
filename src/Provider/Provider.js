@@ -19,6 +19,7 @@ function Provider({ children }) {
   const [changeDrinkCategory, setChangeDrinkCategory] = useState('');
   const [randomDrink, setRandomDrink] = useState([]);
   const [randomFood, setRandomFood] = useState([]);
+  const [update, setUpdate] = useState(false);
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleData = (data) => {
@@ -75,6 +76,8 @@ function Provider({ children }) {
     setChangeFoodCategory,
     changeDrinkCategory,
     setChangeDrinkCategory,
+    update,
+    setUpdate,
     result,
     errorMessage,
   };
