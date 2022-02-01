@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import context from '../Context/Context';
+import SearchCard from './SearchCard';
 
-function SearchBar({ title, searchInput }) {
+function SearchBar({ title, searchInput, history }) {
   const FOOD_INGREDIENTS = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
   const FOOD_NAMES = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
   const FIRST_LETTER_FOOD = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
@@ -109,7 +110,7 @@ function SearchBar({ title, searchInput }) {
         >
           Search
         </button>
-        {/* <SearchCard history={ history } /> */}
+        <SearchCard history={ history } />
       </div>
     </form>
   );

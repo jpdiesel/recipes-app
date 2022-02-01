@@ -183,7 +183,7 @@ describe('16 - Redirecione para a tela de detalhes da receita caso apenas uma re
 });
 
 describe('17 - Mostre as receitas em cards caso mais de uma receita seja encontrada', () => {
-  it.only('Caso mais de uma comida seja encontrada, mostrar as 12 primeiras', () => {
+  it('Caso mais de uma comida seja encontrada, mostrar as 12 primeiras', () => {
     cy.visit('http://localhost:3000/foods', {
       onBeforeLoad(win) {
         win.fetch = fetchMock;
@@ -194,8 +194,6 @@ describe('17 - Mostre as receitas em cards caso mais de uma receita seja encontr
     cy.get('[data-testid="name-search-radio"]').click();
     cy.get('[data-testid="search-input"]').type('soup');
     cy.get('[data-testid="exec-search-btn"]').click();
-
-    console.log('oi', soupMeals.meals.length);
 
     soupMeals.meals.forEach((meal, index) => {
       cy.get(`[data-testid="${index}-recipe-card"]`);

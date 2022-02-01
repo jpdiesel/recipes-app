@@ -8,7 +8,7 @@ import context from '../../Context/Context';
 const DRINK_API = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
 function Drinks({ history }) {
-  const { drinkCard, setDrinkCard, api } = useContext(context);
+  const { drinkCard, setDrinkCard, api, procurado } = useContext(context);
   useEffect(() => {
     (async () => {
       const { drinks } = await api(DRINK_API);
@@ -18,7 +18,7 @@ function Drinks({ history }) {
   return (
     <>
       <Header history={ history } title="Drinks" showSearchButton />
-      { drinkCard.length > 1
+      { drinkCard.length > 1 && !procurado
         ? (
           <DrinkCard cocktails={ drinkCard } />
         )

@@ -2,14 +2,12 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import context from '../Context/Context';
-import SearchCard from './SearchCard';
 
 const FOOD_CATEGORIES = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
 const FOOD_MAX_RESULT = 12;
 const CATEGORIES_MAX_RESULT = 5;
-let mostrarTela = null;
 
-export default function FoodCard({ foods, history }) {
+export default function FoodCard({ foods }) {
   const {
     foodCategories,
     setFoodCategories,
@@ -22,6 +20,7 @@ export default function FoodCard({ foods, history }) {
     setChangeFoodCategory,
     procurado,
     setProcurado,
+    setFoodDetails,
   } = useContext(context);
 
   const searchCategories = async (category) => {
@@ -41,41 +40,9 @@ export default function FoodCard({ foods, history }) {
     setToggleSearchFoodCat(false);
   };
 
-  const apresentar = () => {
-    console.log(procurado);
-    if (searchFoodCategories.length >= 1 && toggleSearchFoodCat && !procurado) {
-      mostrarTela = (
-        searchFoodCategories.slice(0, FOOD_MAX_RESULT).map((food, index) => (
-          <Link key={ index } to={ `/foods/${food.idMeal}` }>
-            <div data-testid={ `${index}-recipe-card` } key={ index }>
-              <p data-testid={ `${index}-card-name` }>{ food.strMeal }</p>
-              <img
-                key={ index }
-                data-testid={ `${index}-card-img` }
-                src={ food.strMealThumb }
-                alt={ food.strMeal }
-              />
-            </div>
-          </Link>))
-      );
-    } else if (!procurado) {
-      mostrarTela = (
-        foods.slice(0, FOOD_MAX_RESULT).map((food, index) => (
-          <Link key={ index } to={ `/foods/${food.idMeal}` }>
-            <div data-testid={ `${index}-recipe-card` } key={ index }>
-              <p data-testid={ `${index}-card-name` }>{ food.strMeal }</p>
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ food.strMealThumb }
-                alt={ food.strMeal }
-              />
-            </div>
-          </Link>
-        )));
-    } else if (procurado) {
-      mostrarTela = (<SearchCard history={ history } />);
-    }
-  };
+  // const saveDetails = () => {
+
+  // };
 
   useEffect(() => {
     (async () => {
@@ -83,10 +50,6 @@ export default function FoodCard({ foods, history }) {
       setFoodCategories(meals);
     })();
   }, []);
-
-  useEffect(() => {
-    apresentar();
-  }, [procurado, searchFoodCategories, toggleSearchFoodCat]);
 
   return (
     <div>
@@ -108,11 +71,9 @@ export default function FoodCard({ foods, history }) {
         </button>
       )) }
 
-      {/* tela ddos itens */}
+      {/* tela dos itens */}
 
-      { mostrarTela }
-
-      {/* { searchFoodCategories.length >= 1 && toggleSearchFoodCat
+      { searchFoodCategories.length >= 1 && toggleSearchFoodCat && !procurado
         ? (
           searchFoodCategories.slice(0, FOOD_MAX_RESULT).map((food, index) => (
             <Link key={ index } to={ `/foods/${food.idMeal}` }>
@@ -131,7 +92,14 @@ export default function FoodCard({ foods, history }) {
         : (
           foods.slice(0, FOOD_MAX_RESULT).map((food, index) => (
             <Link key={ index } to={ `/foods/${food.idMeal}` }>
-              <div data-testid={ `${index}-recipe-card` } key={ index }>
+              <div
+                data-testid={ `${index}-recipe-card` }
+                key={ index }
+                role="button"
+                onClick={ () => setFoodDetails(food) }
+                onKeyPress={ () => setFoodDetails(food) }
+                tabIndex={ index }
+              >
                 <p data-testid={ `${index}-card-name` }>{ food.strMeal }</p>
                 <img
                   data-testid={ `${index}-card-img` }
@@ -140,7 +108,7 @@ export default function FoodCard({ foods, history }) {
                 />
               </div>
             </Link>
-          )))} */}
+          )))}
     </div>
   );
 }
