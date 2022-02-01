@@ -2,14 +2,13 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import context from '../Context/Context';
-import SearchCard from './SearchCard';
 
 const FOOD_CATEGORIES = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
 const FOOD_MAX_RESULT = 12;
 const CATEGORIES_MAX_RESULT = 5;
 let mostrarTela = null;
 
-export default function FoodCard({ foods, history }) {
+export default function FoodCard({ foods }) {
   const {
     foodCategories,
     setFoodCategories,
@@ -73,7 +72,7 @@ export default function FoodCard({ foods, history }) {
           </Link>
         )));
     } else if (procurado) {
-      mostrarTela = (<SearchCard history={ history } />);
+      mostrarTela = '';
     }
   };
 
