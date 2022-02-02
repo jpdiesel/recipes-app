@@ -114,6 +114,7 @@ export default function FoodDetails({ history }) {
       const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
       const { meals } = await api(URL);
       setFoodDetails(meals);
+      console.log(URL);
       listIngredients(meals[0]);
     })();
   }, []);
