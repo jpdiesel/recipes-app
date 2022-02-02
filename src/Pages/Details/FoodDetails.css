@@ -4,7 +4,7 @@ section {
   width: 30em;
 }
 
-#start-recipe {
+button .start-recipe {
   bottom: 0;
   position: fixed;
 }
