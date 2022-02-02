@@ -1,18 +1,36 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import context from '../Context/Context';
 
 const MAX_RESULT = 12;
 
-export default function IngredientCard({ drinks, foods }) {
-  console.log(drinks, 'eu estou fora');
+export default function IngredientCard({ cocktails, foods }) {
+  const { setSearchDrinkCategories, setSearchFoodCategories, api } = useContext(context);
+  const saveDrinkIngredients = async (drinkName) => {
+    const D = `https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken_breast${drinkName}`;
+    const { drinks } = await api(D);
+    setSearchDrinkCategories(drinks);
+  };
+  const saveFoodIngredients = async (foodName) => {
+    const FOOD = `https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken_breast${foodName}`;
+    const { meals } = await api(FOOD);
+    setSearchFoodCategories(meals);
+  };
   return (
     <div>
-      { drinks && drinks.length > 1
+      { cocktails && cocktails.length > 1
         ? (
-          drinks.slice(0, MAX_RESULT).map((drink, index) => {
-            console.log(drink, 'eu esotu dentro');
-            return (
-              <div key={ index } data-testid={ `${index}-ingredient-card` }>
+          cocktails.slice(0, MAX_RESULT).map((drink, index) => (
+            <Link to="/drinks" key={ index }>
+              <div
+                key={ index }
+                data-testid={ `${index}-ingredient-card` }
+                onClick={ () => saveDrinkIngredients(drink.strIngredient1) }
+                role="button"
+                tabIndex={ index }
+                onKeyPress={ () => saveDrinkIngredients(drink.strIngredient1) }
+              >
                 <p data-testid={ `${index}-card-name` }>{ drink.strIngredient1 }</p>
                 <img
                   data-testid={ `${index}-card-img` }
@@ -21,8 +39,8 @@ export default function IngredientCard({ drinks, foods }) {
                   }
                   alt={ drink.strIngredient1 }
                 />
-              </div>);
-          })
+              </div>
+            </Link>))
         )
         : (
           null
@@ -30,16 +48,25 @@ export default function IngredientCard({ drinks, foods }) {
       { foods && foods.length > 1
         ? (
           foods.slice(0, MAX_RESULT).map((food, index) => (
-            <div key={ index } data-testid={ `${index}-ingredient-card` }>
-              <p data-testid={ `${index}-card-name` }>{ food.strIngredient }</p>
-              <img
-                data-testid={ `${index}-card-img` }
-                src={
-                  `https://www.themealdb.com/images/ingredients/${food.strIngredient}-Small.png`
-                }
-                alt={ food.strIngredient }
-              />
-            </div>
+            <Link to="/foods" key={ index }>
+              <div
+                key={ index }
+                data-testid={ `${index}-ingredient-card` }
+                onClick={ () => saveFoodIngredients(food.strIngredient) }
+                role="button"
+                tabIndex={ index }
+                onKeyPress={ () => saveFoodIngredients(food.strIngredient) }
+              >
+                <p data-testid={ `${index}-card-name` }>{ food.strIngredient }</p>
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={
+                    `https://www.themealdb.com/images/ingredients/${food.strIngredient}-Small.png`
+                  }
+                  alt={ food.strIngredient }
+                />
+              </div>
+            </Link>
           ))
         )
         : (
@@ -50,6 +77,6 @@ export default function IngredientCard({ drinks, foods }) {
 }
 
 IngredientCard.propTypes = {
-  drinks: PropTypes.shape({}),
+  cocktails: PropTypes.shape({}),
   foods: PropTypes.shape({}),
 }.isRequired;

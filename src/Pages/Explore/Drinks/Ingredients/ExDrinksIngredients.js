@@ -22,7 +22,7 @@ function ExDrinksIngredients({ history }) {
         title="Explore Ingredients"
         showSearchButton={ false }
       />
-      <IngredientCard drinks={ (drinksIngredients || []) } />
+      <IngredientCard cocktails={ (drinksIngredients || []) } />
       <Footer history={ history } />
     </>
   );

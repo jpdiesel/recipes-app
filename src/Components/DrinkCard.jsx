@@ -42,7 +42,6 @@ export default function DrinkCard({ cocktails }) {
   const allCategories = () => {
     setToggleSearchDrinkCat(false);
   };
-
   return (
     <div>
       <button

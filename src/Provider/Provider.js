@@ -15,6 +15,8 @@ function Provider({ children }) {
   const [drinksIngredients, setDrinksIngredients] = useState([]);
   const [toggleSearchFoodCat, setToggleSearchFoodCat] = useState(false);
   const [toggleSearchDrinkCat, setToggleSearchDrinkCat] = useState(false);
+  const [foodIngredientSearch, setFoodIngredientSearch] = useState('');
+  const [drinkIngredientSearch, setDrinkIngredientSearch] = useState('');
   const [changeFoodCategory, setChangeFoodCategory] = useState('');
   const [changeDrinkCategory, setChangeDrinkCategory] = useState('');
   const [randomDrink, setRandomDrink] = useState([]);
@@ -76,6 +78,10 @@ function Provider({ children }) {
     setChangeFoodCategory,
     changeDrinkCategory,
     setChangeDrinkCategory,
+    foodIngredientSearch,
+    setFoodIngredientSearch,
+    drinkIngredientSearch,
+    setDrinkIngredientSearch,
     update,
     setUpdate,
     result,
