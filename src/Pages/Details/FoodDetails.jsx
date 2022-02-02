@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import context from '../../Context/Context';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
@@ -12,10 +13,12 @@ export default function FoodDetails({ history }) {
     setFoodDetails,
     ingredients,
     listIngredients,
+    favoriteDetails,
   } = useContext(context);
 
   const [drinkRecommended, setDrinkRecommended] = useState([]);
   const [copiedFoodLink, setFoodCopiedLink] = useState(false);
+  const [favoritedFood, setFavoritedFood] = useState(false);
 
   // API para retornar as bebidas recomendadas
   useEffect(() => {
@@ -27,38 +30,6 @@ export default function FoodDetails({ history }) {
     })();
   }, []);
 
-  const favoriteDetails = () => {
-    const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
-
-    const { idMeal, strMeal, strCategory, strMealThumb, strArea } = foodDetails[0];
-
-    if (local) {
-      const salvar = [...local, {
-        id: idMeal,
-        type: 'food',
-        nationality: strArea,
-        category: strCategory,
-        alcoholicOrNot: '',
-        name: strMeal,
-        image: strMealThumb,
-      }];
-
-      localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
-    } else {
-      const salvar = [{
-        id: idMeal,
-        type: 'food',
-        nationality: strArea,
-        category: strCategory,
-        alcoholicOrNot: '',
-        name: strMeal,
-        image: strMealThumb,
-      }];
-
-      localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
-    }
-  };
-
   const details = () => {
     const {
       strMeal,
@@ -67,11 +38,20 @@ export default function FoodDetails({ history }) {
       strCategory,
       strVideo,
       idMeal,
-    } = foodDetails[0];
+    } = foodDetails;
 
     const copyToClipboard = () => {
       navigator.clipboard.writeText(`http://localhost:3000/foods/${idMeal}`);
       setFoodCopiedLink(true);
+    };
+
+    const favorite = () => {
+      if (favoritedFood) {
+        setFavoritedFood(false);
+      } else {
+        setFavoritedFood(true);
+        favoriteDetails('foods', foodDetails);
+      }
     };
 
     return (
@@ -87,14 +67,28 @@ export default function FoodDetails({ history }) {
           <img src={ shareIcon } alt="Compartilhar" />
           { copiedFoodLink ? <p>Link copied!</p> : null }
         </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-          src={ whiteHeartIcon }
-          onClick={ () => favoriteDetails() }
-        >
-          <img src={ whiteHeartIcon } alt="Favoritar" />
-        </button>
+
+        { favoritedFood
+          ? (
+            <button
+              type="button"
+              data-testid="favorite-btn"
+              src={ blackHeartIcon }
+              onClick={ () => favorite() }
+            >
+              <img src={ blackHeartIcon } alt="Favoritar" />
+            </button>
+          )
+          : (
+            <button
+              type="button"
+              data-testid="favorite-btn"
+              src={ whiteHeartIcon }
+              onClick={ () => favorite() }
+            >
+              <img src={ whiteHeartIcon } alt="Favoritar" />
+            </button>
+          )}
         <p data-testid="recipe-category">{strCategory}</p>
 
         <ul>
@@ -146,16 +140,21 @@ export default function FoodDetails({ history }) {
       const { pathname } = history.location;
       const lastItem = pathname.substring(pathname.lastIndexOf('/') + 1);
       const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
-      const { meals } = await api(URL);
-      setFoodDetails(meals);
-      listIngredients(meals[0]);
+      listIngredients(foodDetails);
+      console.log(foodDetails);
+      if (!foodDetails.length) {
+        console.log('entrou!!!');
+        const { meals } = await api(URL);
+        setFoodDetails(meals[0]);
+        listIngredients(meals[0]);
+      }
     })();
   }, []);
 
   return (
     <div>
       {
-        foodDetails.length >= 1 ? details() : (<p>Carregando</p>)
+        foodDetails ? details() : (<p>Carregando</p>)
       }
     </div>
   );

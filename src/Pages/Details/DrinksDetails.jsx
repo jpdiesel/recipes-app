@@ -17,6 +17,7 @@ export default function DrinksDetails({ history }) {
     setDrinksDetails,
     ingredients,
     listIngredients,
+    favoriteDetails,
   } = useContext(context);
 
   useEffect(() => {
@@ -28,44 +29,6 @@ export default function DrinksDetails({ history }) {
     })();
   }, []);
 
-  const favoriteDetails = () => {
-    const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
-
-    const {
-      idDrink,
-      strDrinkThumb,
-      strCategory,
-      strDrink,
-      strAlcoholic,
-    } = drinksDetails[0];
-
-    if (local) {
-      const salvar = [...local, {
-        id: idDrink,
-        type: 'drink',
-        nationality: '',
-        category: strCategory,
-        alcoholicOrNot: strAlcoholic,
-        name: strDrink,
-        image: strDrinkThumb,
-      }];
-
-      localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
-    } else {
-      const salvar = [{
-        id: idDrink,
-        type: 'drink',
-        nationality: '',
-        category: strCategory,
-        alcoholicOrNot: strAlcoholic,
-        name: strDrink,
-        image: strDrinkThumb,
-      }];
-
-      localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
-    }
-  };
-
   const details = () => {
     const {
       strDrink,
@@ -73,7 +36,7 @@ export default function DrinksDetails({ history }) {
       strInstructions,
       idDrink,
       strAlcoholic,
-    } = drinksDetails[0];
+    } = drinksDetails;
 
     const copyToClipboard = () => {
       navigator.clipboard.writeText(`http://localhost:3000/drinks/${idDrink}`);
@@ -82,9 +45,10 @@ export default function DrinksDetails({ history }) {
 
     const favorite = () => {
       if (favoritedDrink) {
-        setFavoritedDrink(true);
-      } else {
         setFavoritedDrink(false);
+      } else {
+        setFavoritedDrink(true);
+        favoriteDetails('drinks', drinksDetails);
       }
     };
 
@@ -117,7 +81,7 @@ export default function DrinksDetails({ history }) {
               type="button"
               data-testid="favorite-btn"
               src={ whiteHeartIcon }
-              onClick={ () => favoriteDetails() }
+              onClick={ () => favorite() }
             >
               <img src={ whiteHeartIcon } alt="Favoritar" />
             </button>
@@ -162,9 +126,12 @@ export default function DrinksDetails({ history }) {
       const { pathname } = history.location;
       const lastItem = pathname.substring(pathname.lastIndexOf('/') + 1);
       const URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
-      const { drinks } = await api(URL);
-      setDrinksDetails(drinks);
-      listIngredients(drinks[0]);
+      listIngredients(drinksDetails);
+      if (!drinksDetails.length) {
+        const { drinks } = await api(URL);
+        setDrinksDetails(drinks[0]);
+        listIngredients(drinks[0]);
+      }
     })();
   }, []);
 
