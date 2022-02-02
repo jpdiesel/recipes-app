@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import context from '../../Context/Context';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import './DrinksDetails.css';
 
 export default function DrinksDetails({ history }) {
   const { drinksDetails, api, setDrinksDetails } = useContext(context);
   const [recommended, setRecommended] = useState([]);
+  const [copiedDrinkLink, setCopiedDrinkLink] = useState(false);
+  const [favoritedDrink, setFavoritedDrink] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -22,27 +27,52 @@ export default function DrinksDetails({ history }) {
       strDrink,
       strDrinkThumb,
       strInstructions,
-      strCategory,
-      strVideo } = drinksDetails[0];
+      idDrink,
+      strAlcoholic,
+    } = drinksDetails[0];
 
-    let ingredient = [];
+    // const ingredient = ['batata', 'cenoura'];
 
-    const drinksDetailsKeys = Object.keys(drinksDetails[0])
+    const copyToClipboard = () => {
+      navigator.clipboard.writeText(`http://localhost:3000/drinks/${idDrink}`);
+      setCopiedDrinkLink(true);
+    };
+
+    const favorite = () => {
+      if (favoritedDrink) {
+        setFavoritedDrink(true);
+      } else {
+        setFavoritedDrink(false);
+      }
+    };
+
+    const ingredientKeys = Object.keys(drinksDetails[0])
       .filter((atual) => atual.includes('strIngredient'));
 
-    for (let i = 0; i < drinksDetailsKeys.length; i += 1) {
-      const atual = `strIngredient${i + 1}`;
-      const medidas = `strMeasure${i + 1}`;
-      const juntos = `${drinksDetails[0][atual]} ${drinksDetails[0][medidas]}`;
+    const measureKeys = Object.keys(drinksDetails[0])
+      .filter((atual) => atual.includes('strMeasure'));
 
-      if (drinksDetails[0][atual] && drinksDetails[0][medidas]) {
-        ingredient = [...ingredient, juntos];
-      } else if (drinksDetails[0][atual]) {
-        ingredient = [...ingredient, drinksDetails[0][atual]];
-      } else if (drinksDetails[0][medidas]) {
-        ingredient = [...ingredient, drinksDetails[0][medidas]];
-      }
-    }
+    const ing = drinksDetails
+      .map((drink) => ingredientKeys.map((keys) => drink[keys]));
+
+    const measure = drinksDetails.map((drink) => measureKeys.map((keys) => drink[keys]));
+
+    console.log(ing);
+    console.log(measure);
+
+    // for (let i = 0; i < drinksDetailsKeys.length; i += 1) {
+    //   const atual = `strIngredient${i + 1}`;
+    //   const medidas = `strMeasure${i + 1}`;
+    //   const juntos = `${drinksDetails[0][atual]} ${drinksDetails[0][medidas]}`;
+
+    //   if (drinksDetails[0][atual] && drinksDetails[0][medidas]) {
+    //     ingredient = [...ingredient, juntos];
+    //   } else if (drinksDetails[0][atual]) {
+    //     ingredient = [...ingredient, drinksDetails[0][atual]];
+    //   } else if (drinksDetails[0][medidas]) {
+    //     ingredient = [...ingredient, drinksDetails[0][medidas]];
+    //   }
+    // }
 
     return (
       <div>
@@ -52,56 +82,68 @@ export default function DrinksDetails({ history }) {
           type="button"
           data-testid="share-btn"
           src={ shareIcon }
+          onClick={ () => copyToClipboard() }
         >
           <img src={ shareIcon } alt="Compartilhar" />
+          { copiedDrinkLink ? <p>Link copied!</p> : null }
         </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-          src={ whiteHeartIcon }
-        >
-          <img src={ whiteHeartIcon } alt="Favoritar" />
-        </button>
-        <p data-testid="recipe-category">{strCategory}</p>
+        { favoritedDrink
+          ? (
+            <button
+              type="button"
+              data-testid="favorite-btn"
+              src={ blackHeartIcon }
+              onClick={ () => favorite() }
+            >
+              <img src={ blackHeartIcon } alt="Favoritar" />
+            </button>
+          )
+          : (
+            <button
+              type="button"
+              data-testid="favorite-btn"
+              src={ whiteHeartIcon }
+              onClick={ () => favorite() }
+            >
+              <img src={ whiteHeartIcon } alt="Favoritar" />
+            </button>
+          )}
+        <p data-testid="recipe-category">{strAlcoholic}</p>
 
         <ul>
-          {ingredient.map((atual, index) => (
-            <li
-              key={ index }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {atual}
-            </li>
-          ))}
-
-          <p data-testid="instructions">{strInstructions}</p>
-
-          <iframe
-            data-testid="video"
-            width="560"
-            height="315"
-            src={ strVideo }
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer;
-          autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          {ing.map((ingredient, index) => measure.map((medida) => (
+            ingredient && medida !== null
+              ? (
+                <li
+                  key={ index }
+                  data-testid={ `${index}-ingredient-name-and-measure` }
+                >
+                  {`${ingredient} - ${medida}`}
+                </li>
+              )
+              : (
+                null
+              )
+          )))}
         </ul>
-
-        {recommended && recommended.map((atual, index) => (
-          <div key={ index } data-testid={ `${index}-recomendation-card` }>
-            <p>{atual.strMeal}</p>
-            <img src={ atual.strMealThumb } alt="Favoritar" />
-          </div>
-        ))}
-
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-        >
-          Start Recipe
-        </button>
+        <p data-testid="instructions">{strInstructions}</p>
+        <section>
+          {recommended && recommended.map((atual, index) => (
+            <div key={ index } data-testid={ `${index}-recomendation-card` }>
+              <p data-testid={ `${index}-recomendation-title` }>{atual.strMeal}</p>
+              <img src={ atual.strMealThumb } alt="Favoritar" />
+            </div>
+          ))}
+        </section>
+        <Link to={ `/drinks/${idDrink}/in-progress` }>
+          <button
+            id="start-recipe"
+            type="button"
+            data-testid="start-recipe-btn"
+          >
+            Start Recipe
+          </button>
+        </Link>
       </div>);
   };
 
