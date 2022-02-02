@@ -137,7 +137,7 @@ export default function DrinksDetails({ history }) {
         </section>
         <Link to={ `/drinks/${idDrink}/in-progress` }>
           <button
-            id="start-recipe"
+            className="start-recipe"
             type="button"
             data-testid="start-recipe-btn"
           >
