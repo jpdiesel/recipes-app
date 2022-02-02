@@ -13,6 +13,7 @@ export default function FoodDetails({ history }) {
     ingredients,
     listIngredients,
   } = useContext(context);
+
   const [drinkRecommended, setDrinkRecommended] = useState([]);
   const [copiedFoodLink, setFoodCopiedLink] = useState(false);
 
@@ -25,6 +26,38 @@ export default function FoodDetails({ history }) {
       setDrinkRecommended(retorno.drinks.slice(0, NU));
     })();
   }, []);
+
+  const favoriteDetails = () => {
+    const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
+    const { idMeal, strMeal, strCategory, strMealThumb, strArea } = foodDetails[0];
+
+    if (local) {
+      const salvar = [...local, {
+        id: idMeal,
+        type: 'food',
+        nationality: strArea,
+        category: strCategory,
+        alcoholicOrNot: '',
+        name: strMeal,
+        image: strMealThumb,
+      }];
+
+      localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
+    } else {
+      const salvar = [{
+        id: idMeal,
+        type: 'food',
+        nationality: strArea,
+        category: strCategory,
+        alcoholicOrNot: '',
+        name: strMeal,
+        image: strMealThumb,
+      }];
+
+      localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
+    }
+  };
 
   const details = () => {
     const {
@@ -58,6 +91,7 @@ export default function FoodDetails({ history }) {
           type="button"
           data-testid="favorite-btn"
           src={ whiteHeartIcon }
+          onClick={ () => favoriteDetails() }
         >
           <img src={ whiteHeartIcon } alt="Favoritar" />
         </button>

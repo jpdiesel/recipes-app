@@ -28,6 +28,44 @@ export default function DrinksDetails({ history }) {
     })();
   }, []);
 
+  const favoriteDetails = () => {
+    const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
+    const {
+      idDrink,
+      strDrinkThumb,
+      strCategory,
+      strDrink,
+      strAlcoholic,
+    } = drinksDetails[0];
+
+    if (local) {
+      const salvar = [...local, {
+        id: idDrink,
+        type: 'drink',
+        nationality: '',
+        category: strCategory,
+        alcoholicOrNot: strAlcoholic,
+        name: strDrink,
+        image: strDrinkThumb,
+      }];
+
+      localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
+    } else {
+      const salvar = [{
+        id: idDrink,
+        type: 'drink',
+        nationality: '',
+        category: strCategory,
+        alcoholicOrNot: strAlcoholic,
+        name: strDrink,
+        image: strDrinkThumb,
+      }];
+
+      localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
+    }
+  };
+
   const details = () => {
     const {
       strDrink,
@@ -79,7 +117,7 @@ export default function DrinksDetails({ history }) {
               type="button"
               data-testid="favorite-btn"
               src={ whiteHeartIcon }
-              onClick={ () => favorite() }
+              onClick={ () => favoriteDetails() }
             >
               <img src={ whiteHeartIcon } alt="Favoritar" />
             </button>
