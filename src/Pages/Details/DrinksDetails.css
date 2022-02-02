@@ -1,10 +1,10 @@
 section {
-  width: 30em;
   overflow-x: auto;
+  width: 30em;
   white-space: nowrap;
 }
 
 #start-recipe {
+  bottom: 0;
   position: fixed;
-  bottom: 0px;
 }
