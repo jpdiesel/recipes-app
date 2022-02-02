@@ -77,7 +77,14 @@ export default function FoodCard({ foods }) {
         ? (
           searchFoodCategories.slice(0, FOOD_MAX_RESULT).map((food, index) => (
             <Link key={ index } to={ `/foods/${food.idMeal}` }>
-              <div data-testid={ `${index}-recipe-card` } key={ index }>
+              <div
+                data-testid={ `${index}-recipe-card` }
+                key={ index }
+                role="button"
+                onClick={ () => setFoodDetails(food) }
+                tabIndex={ index }
+                onKeyPress={ () => setFoodDetails(food) }
+              >
                 <p data-testid={ `${index}-card-name` }>{ food.strMeal }</p>
                 <img
                   key={ index }
