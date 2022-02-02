@@ -18,6 +18,7 @@ export default function DrinkCard({ cocktails }) {
     toggleSearchDrinkCat,
     changeDrinkCategory,
     setChangeDrinkCategory,
+    // setDrinksDetails,
   } = useContext(context);
 
   useEffect(() => {
@@ -38,6 +39,10 @@ export default function DrinkCard({ cocktails }) {
       setSearchDrinkCategories(drinks);
     }
   };
+
+  // const saveDetails = () => {
+
+  // };
 
   const allCategories = () => {
     setToggleSearchDrinkCat(false);
@@ -81,7 +86,10 @@ export default function DrinkCard({ cocktails }) {
           : (
             cocktails.slice(0, DRINK_MAX_RESULT).map((drink, index) => (
               <Link key={ index } to={ `/drinks/${drink.idDrink}` }>
-                <div data-testid={ `${index}-recipe-card` } key={ index }>
+                <div
+                  data-testid={ `${index}-recipe-card` }
+                  key={ index }
+                >
                   <p data-testid={ `${index}-card-name` }>{ drink.strDrink }</p>
                   <img
                     data-testid={ `${index}-card-img` }

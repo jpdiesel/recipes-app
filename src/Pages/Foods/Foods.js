@@ -8,7 +8,8 @@ import context from '../../Context/Context';
 const FOOD_API = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
 function Foods({ history }) {
-  const { foodCard, setFoodCard, api } = useContext(context);
+  const { foodCard, setFoodCard, api, procurado } = useContext(context);
+
   useEffect(() => {
     (async () => {
       const { meals } = await api(FOOD_API);
@@ -18,7 +19,7 @@ function Foods({ history }) {
   return (
     <div>
       <Header history={ history } title="Foods" showSearchButton />
-      { foodCard.length > 1
+      { foodCard.length > 1 && !procurado
         ? (
           <FoodCard foods={ foodCard } />
         )

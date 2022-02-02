@@ -22,6 +22,10 @@ function Provider({ children }) {
   const [randomDrink, setRandomDrink] = useState([]);
   const [randomFood, setRandomFood] = useState([]);
   const [update, setUpdate] = useState(false);
+  const [procurado, setProcurado] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [foodDetails, setFoodDetails] = useState('');
+  const [drinksDetails, setDrinksDetails] = useState('');
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleData = (data) => {
@@ -86,6 +90,14 @@ function Provider({ children }) {
     setUpdate,
     result,
     errorMessage,
+    procurado,
+    setProcurado,
+    searchInput,
+    setSearchInput,
+    foodDetails,
+    setFoodDetails,
+    drinksDetails,
+    setDrinksDetails,
   };
   return (
     <context.Provider value={ contextValue }>

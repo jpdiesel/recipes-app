@@ -18,16 +18,13 @@ export default function FoodCard({ foods }) {
     setToggleSearchFoodCat,
     changeFoodCategory,
     setChangeFoodCategory,
+    procurado,
+    setProcurado,
+    setFoodDetails,
   } = useContext(context);
 
-  useEffect(() => {
-    (async () => {
-      const { meals } = await api(FOOD_CATEGORIES);
-      setFoodCategories(meals);
-    })();
-  }, []);
-
   const searchCategories = async (category) => {
+    setProcurado(false);
     setChangeFoodCategory(category);
     if (toggleSearchFoodCat && changeFoodCategory === category) {
       setToggleSearchFoodCat(false);
@@ -42,6 +39,17 @@ export default function FoodCard({ foods }) {
   const allCategories = () => {
     setToggleSearchFoodCat(false);
   };
+
+  // const saveDetails = () => {
+
+  // };
+
+  useEffect(() => {
+    (async () => {
+      const { meals } = await api(FOOD_CATEGORIES);
+      setFoodCategories(meals);
+    })();
+  }, []);
 
   return (
     <div>
@@ -62,7 +70,10 @@ export default function FoodCard({ foods }) {
           { food.strCategory }
         </button>
       )) }
-      { searchFoodCategories.length >= 1 && toggleSearchFoodCat
+
+      {/* tela dos itens */}
+
+      { searchFoodCategories.length >= 1 && toggleSearchFoodCat && !procurado
         ? (
           searchFoodCategories.slice(0, FOOD_MAX_RESULT).map((food, index) => (
             <Link key={ index } to={ `/foods/${food.idMeal}` }>
@@ -81,7 +92,14 @@ export default function FoodCard({ foods }) {
         : (
           foods.slice(0, FOOD_MAX_RESULT).map((food, index) => (
             <Link key={ index } to={ `/foods/${food.idMeal}` }>
-              <div data-testid={ `${index}-recipe-card` } key={ index }>
+              <div
+                data-testid={ `${index}-recipe-card` }
+                key={ index }
+                role="button"
+                onClick={ () => setFoodDetails(food) }
+                onKeyPress={ () => setFoodDetails(food) }
+                tabIndex={ index }
+              >
                 <p data-testid={ `${index}-card-name` }>{ food.strMeal }</p>
                 <img
                   data-testid={ `${index}-card-img` }
@@ -98,5 +116,8 @@ export default function FoodCard({ foods }) {
 FoodCard.propTypes = {
   foods: PropTypes.shape({
     slice: PropTypes.func,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
   }).isRequired,
 };

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import context from '../Context/Context';
 import Profile from '../images/profileIcon.svg';
@@ -8,8 +8,7 @@ import './Header.css';
 import SearchBar from './SearchBar';
 
 function Header({ history, title, showSearchButton }) {
-  const { showInput, setShowInput } = useContext(context);
-  const [searchInput, setSearchInput] = useState('');
+  const { showInput, setShowInput, searchInput, setSearchInput } = useContext(context);
   const inputVisibility = () => {
     if (showInput) {
       setShowInput(false);
