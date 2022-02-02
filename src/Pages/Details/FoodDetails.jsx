@@ -6,7 +6,13 @@ import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
 export default function FoodDetails({ history }) {
-  const { foodDetails, api, setFoodDetails } = useContext(context);
+  const {
+    foodDetails,
+    api,
+    setFoodDetails,
+    ingredients,
+    listIngredients,
+  } = useContext(context);
   const [drinkRecommended, setDrinkRecommended] = useState([]);
   const [copiedFoodLink, setFoodCopiedLink] = useState(false);
 
@@ -30,29 +36,10 @@ export default function FoodDetails({ history }) {
       idMeal,
     } = foodDetails[0];
 
-    let ingredient = [];
-
     const copyToClipboard = () => {
       navigator.clipboard.writeText(`http://localhost:3000/foods/${idMeal}`);
       setFoodCopiedLink(true);
     };
-
-    const mealDetailsKeys = Object.keys(foodDetails[0])
-      .filter((atual) => atual.includes('strIngredient'));
-
-    for (let i = 0; i < mealDetailsKeys.length; i += 1) {
-      const atual = `strIngredient${i + 1}`;
-      const medidas = `strMeasure${i + 1}`;
-      const juntos = `${foodDetails[0][atual]} ${foodDetails[0][medidas]}`;
-
-      if (foodDetails[0][atual] && foodDetails[0][medidas]) {
-        ingredient = [...ingredient, juntos];
-      } else if (foodDetails[0][atual]) {
-        ingredient = [...ingredient, foodDetails[0][atual]];
-      } else if (foodDetails[0][medidas]) {
-        ingredient = [...ingredient, foodDetails[0][medidas]];
-      }
-    }
 
     return (
       <div>
@@ -77,14 +64,14 @@ export default function FoodDetails({ history }) {
         <p data-testid="recipe-category">{strCategory}</p>
 
         <ul>
-          {ingredient.map((atual, index) => (
+          {ingredients ? ingredients.map((atual, index) => (
             <li
               key={ index }
               data-testid={ `${index}-ingredient-name-and-measure` }
             >
               {atual}
             </li>
-          ))}
+          )) : null}
 
           <p data-testid="instructions">{strInstructions}</p>
 
@@ -127,6 +114,7 @@ export default function FoodDetails({ history }) {
       const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
       const { meals } = await api(URL);
       setFoodDetails(meals);
+      listIngredients(meals[0]);
     })();
   }, []);
 

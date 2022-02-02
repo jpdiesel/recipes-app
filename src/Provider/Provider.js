@@ -26,6 +26,7 @@ function Provider({ children }) {
   const [searchInput, setSearchInput] = useState('');
   const [foodDetails, setFoodDetails] = useState('');
   const [drinksDetails, setDrinksDetails] = useState('');
+  const [ingredients, setIngredients] = useState('');
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleData = (data) => {
@@ -47,6 +48,31 @@ function Provider({ children }) {
     } catch {
       global.alert(errorMessage);
     }
+  };
+
+  const listIngredients = (revenue) => {
+    const igredientes = Object.keys(revenue)
+      .filter((atual) => atual.includes('strIngredient'));
+
+    let ingredient = [];
+
+    for (let i = 0; i < igredientes.length; i += 1) {
+      const atual = `strIngredient${i + 1}`;
+      const medidas = `strMeasure${i + 1}`;
+      const juntos = `${revenue[atual]} ${revenue[medidas]}`;
+
+      if (revenue[atual] && revenue[medidas].length > 2) {
+        ingredient = [...ingredient, juntos];
+      } else if (revenue[atual]) {
+        ingredient = [...ingredient, revenue[atual]];
+      } else if (revenue[medidas]) {
+        ingredient = [...ingredient, revenue[medidas]];
+      }
+    }
+    const filtrado = ingredient.filter((atual) => (
+      atual !== ' '
+    ));
+    setIngredients(filtrado);
   };
 
   const contextValue = {
@@ -98,6 +124,8 @@ function Provider({ children }) {
     setFoodDetails,
     drinksDetails,
     setDrinksDetails,
+    listIngredients,
+    ingredients,
   };
   return (
     <context.Provider value={ contextValue }>

@@ -8,10 +8,16 @@ import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import './DrinksDetails.css';
 
 export default function DrinksDetails({ history }) {
-  const { drinksDetails, api, setDrinksDetails } = useContext(context);
   const [recommended, setRecommended] = useState([]);
   const [copiedDrinkLink, setCopiedDrinkLink] = useState(false);
   const [favoritedDrink, setFavoritedDrink] = useState(false);
+  const {
+    drinksDetails,
+    api,
+    setDrinksDetails,
+    ingredients,
+    listIngredients,
+  } = useContext(context);
 
   useEffect(() => {
     (async () => {
@@ -31,8 +37,6 @@ export default function DrinksDetails({ history }) {
       strAlcoholic,
     } = drinksDetails[0];
 
-    // const ingredient = ['batata', 'cenoura'];
-
     const copyToClipboard = () => {
       navigator.clipboard.writeText(`http://localhost:3000/drinks/${idDrink}`);
       setCopiedDrinkLink(true);
@@ -45,34 +49,6 @@ export default function DrinksDetails({ history }) {
         setFavoritedDrink(false);
       }
     };
-
-    const ingredientKeys = Object.keys(drinksDetails[0])
-      .filter((atual) => atual.includes('strIngredient'));
-
-    const measureKeys = Object.keys(drinksDetails[0])
-      .filter((atual) => atual.includes('strMeasure'));
-
-    const ing = drinksDetails
-      .map((drink) => ingredientKeys.map((keys) => drink[keys]));
-
-    const measure = drinksDetails.map((drink) => measureKeys.map((keys) => drink[keys]));
-
-    console.log(ing);
-    console.log(measure);
-
-    // for (let i = 0; i < drinksDetailsKeys.length; i += 1) {
-    //   const atual = `strIngredient${i + 1}`;
-    //   const medidas = `strMeasure${i + 1}`;
-    //   const juntos = `${drinksDetails[0][atual]} ${drinksDetails[0][medidas]}`;
-
-    //   if (drinksDetails[0][atual] && drinksDetails[0][medidas]) {
-    //     ingredient = [...ingredient, juntos];
-    //   } else if (drinksDetails[0][atual]) {
-    //     ingredient = [...ingredient, drinksDetails[0][atual]];
-    //   } else if (drinksDetails[0][medidas]) {
-    //     ingredient = [...ingredient, drinksDetails[0][medidas]];
-    //   }
-    // }
 
     return (
       <div>
@@ -111,20 +87,16 @@ export default function DrinksDetails({ history }) {
         <p data-testid="recipe-category">{strAlcoholic}</p>
 
         <ul>
-          {ing.map((ingredient, index) => measure.map((medida) => (
-            ingredient && medida !== null
-              ? (
-                <li
-                  key={ index }
-                  data-testid={ `${index}-ingredient-name-and-measure` }
-                >
-                  {`${ingredient} - ${medida}`}
-                </li>
-              )
-              : (
-                null
-              )
-          )))}
+          {ingredients ? ingredients.map((ingredient, index) => (
+
+            <li
+              key={ index }
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {ingredient}
+            </li>
+
+          )) : null }
         </ul>
         <p data-testid="instructions">{strInstructions}</p>
         <section>
@@ -154,7 +126,7 @@ export default function DrinksDetails({ history }) {
       const URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
       const { drinks } = await api(URL);
       setDrinksDetails(drinks);
-      // details();
+      listIngredients(drinks[0]);
     })();
   }, []);
 
