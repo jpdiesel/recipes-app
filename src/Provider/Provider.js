@@ -63,7 +63,7 @@ function Provider({ children }) {
       const medidas = `strMeasure${i + 1}`;
       const juntos = `${revenue[atual]} ${revenue[medidas]}`;
 
-      if (revenue[atual] && revenue[medidas].length > 2) {
+      if (revenue[atual] && revenue[medidas]) {
         ingredient = [...ingredient, juntos];
       } else if (revenue[atual]) {
         ingredient = [...ingredient, revenue[atual]];

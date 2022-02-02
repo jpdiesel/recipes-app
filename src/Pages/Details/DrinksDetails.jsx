@@ -35,7 +35,7 @@ export default function DrinksDetails({ history }) {
       strInstructions,
       idDrink,
       strAlcoholic,
-    } = drinksDetails[0];
+    } = drinksDetails;
 
     const copyToClipboard = () => {
       navigator.clipboard.writeText(`http://localhost:3000/drinks/${idDrink}`);
@@ -44,9 +44,9 @@ export default function DrinksDetails({ history }) {
 
     const favorite = () => {
       if (favoritedDrink) {
-        setFavoritedDrink(true);
-      } else {
         setFavoritedDrink(false);
+      } else {
+        setFavoritedDrink(true);
       }
     };
 
@@ -124,9 +124,12 @@ export default function DrinksDetails({ history }) {
       const { pathname } = history.location;
       const lastItem = pathname.substring(pathname.lastIndexOf('/') + 1);
       const URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
-      const { drinks } = await api(URL);
-      setDrinksDetails(drinks);
-      listIngredients(drinks[0]);
+      listIngredients(drinksDetails);
+      if (!drinksDetails.length) {
+        const { drinks } = await api(URL);
+        setDrinksDetails(drinks[0]);
+        listIngredients(drinks[0]);
+      }
     })();
   }, []);
 
