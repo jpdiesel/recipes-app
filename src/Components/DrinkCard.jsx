@@ -18,7 +18,6 @@ export default function DrinkCard({ cocktails }) {
     toggleSearchDrinkCat,
     changeDrinkCategory,
     setChangeDrinkCategory,
-    // setDrinksDetails,
   } = useContext(context);
 
   useEffect(() => {
