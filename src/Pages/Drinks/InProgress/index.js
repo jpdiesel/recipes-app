@@ -98,6 +98,7 @@ function InProgressDrinks({ history }) {
                   <img src={ whiteHeartIcon } alt="Favoritar" />
                 </button>
               )}
+
             {/* Lista de igredientes */}
             <div className="list-group">
               {ingredients ? ingredients.map((atual, index) => (
