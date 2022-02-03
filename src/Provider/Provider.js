@@ -24,7 +24,7 @@ function Provider({ children }) {
   const [update, setUpdate] = useState(false);
   const [procurado, setProcurado] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-  const [foodDetails, setFoodDetails] = useState([]);
+  const [foodDetails, setFoodDetails] = useState('');
   const [drinksDetails, setDrinksDetails] = useState([]);
   const [ingredients, setIngredients] = useState('');
   const [favoritedDrink, setFavoritedDrink] = useState(false);
