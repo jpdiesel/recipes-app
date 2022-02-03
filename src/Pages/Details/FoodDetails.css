@@ -1,0 +1,10 @@
+section {
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 30em;
+}
+
+button .start-recipe {
+  bottom: 0;
+  position: fixed;
+}

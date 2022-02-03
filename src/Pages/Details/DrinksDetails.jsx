@@ -1,12 +1,26 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import context from '../../Context/Context';
+import favoritesDetails from '../../Functions/remove';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import './DrinksDetails.css';
 
 export default function DrinksDetails({ history }) {
-  const { drinksDetails, api, setDrinksDetails } = useContext(context);
   const [recommended, setRecommended] = useState([]);
+  const [copiedDrinkLink, setCopiedDrinkLink] = useState(false);
+  const {
+    drinksDetails,
+    api,
+    setDrinksDetails,
+    ingredients,
+    listIngredients,
+    favoritedDrink,
+    setFavoritedDrink,
+    validacao,
+  } = useContext(context);
 
   useEffect(() => {
     (async () => {
@@ -22,27 +36,24 @@ export default function DrinksDetails({ history }) {
       strDrink,
       strDrinkThumb,
       strInstructions,
-      strCategory,
-      strVideo } = drinksDetails[0];
+      idDrink,
+      strAlcoholic,
+    } = drinksDetails;
 
-    let ingredient = [];
+    const copyToClipboard = () => {
+      navigator.clipboard.writeText(`http://localhost:3000/drinks/${idDrink}`);
+      setCopiedDrinkLink(true);
+    };
 
-    const drinksDetailsKeys = Object.keys(drinksDetails[0])
-      .filter((atual) => atual.includes('strIngredient'));
-
-    for (let i = 0; i < drinksDetailsKeys.length; i += 1) {
-      const atual = `strIngredient${i + 1}`;
-      const medidas = `strMeasure${i + 1}`;
-      const juntos = `${drinksDetails[0][atual]} ${drinksDetails[0][medidas]}`;
-
-      if (drinksDetails[0][atual] && drinksDetails[0][medidas]) {
-        ingredient = [...ingredient, juntos];
-      } else if (drinksDetails[0][atual]) {
-        ingredient = [...ingredient, drinksDetails[0][atual]];
-      } else if (drinksDetails[0][medidas]) {
-        ingredient = [...ingredient, drinksDetails[0][medidas]];
+    const favorite = () => {
+      if (favoritedDrink) {
+        setFavoritedDrink(false);
+        favoritesDetails('removeDrinks', drinksDetails);
+      } else {
+        setFavoritedDrink(true);
+        favoritesDetails('drinks', drinksDetails);
       }
-    }
+    };
 
     return (
       <div>
@@ -52,56 +63,64 @@ export default function DrinksDetails({ history }) {
           type="button"
           data-testid="share-btn"
           src={ shareIcon }
+          onClick={ () => copyToClipboard() }
         >
           <img src={ shareIcon } alt="Compartilhar" />
+          { copiedDrinkLink ? <p>Link copied!</p> : null }
         </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-          src={ whiteHeartIcon }
-        >
-          <img src={ whiteHeartIcon } alt="Favoritar" />
-        </button>
-        <p data-testid="recipe-category">{strCategory}</p>
+        { favoritedDrink
+          ? (
+            <button
+              type="button"
+              data-testid="favorite-btn"
+              src={ blackHeartIcon }
+              onClick={ () => favorite() }
+            >
+              <img src={ blackHeartIcon } alt="Favoritar" />
+            </button>
+          )
+          : (
+            <button
+              type="button"
+              data-testid="favorite-btn"
+              src={ whiteHeartIcon }
+              onClick={ () => favorite() }
+            >
+              <img src={ whiteHeartIcon } alt="Favoritar" />
+            </button>
+          )}
+        <p data-testid="recipe-category">{strAlcoholic}</p>
 
         <ul>
-          {ingredient.map((atual, index) => (
+          {ingredients ? ingredients.map((ingredient, index) => (
+
             <li
               key={ index }
               data-testid={ `${index}-ingredient-name-and-measure` }
             >
-              {atual}
+              {ingredient}
             </li>
-          ))}
 
-          <p data-testid="instructions">{strInstructions}</p>
-
-          <iframe
-            data-testid="video"
-            width="560"
-            height="315"
-            src={ strVideo }
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer;
-          autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          )) : null }
         </ul>
-
-        {recommended && recommended.map((atual, index) => (
-          <div key={ index } data-testid={ `${index}-recomendation-card` }>
-            <p>{atual.strMeal}</p>
-            <img src={ atual.strMealThumb } alt="Favoritar" />
-          </div>
-        ))}
-
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-        >
-          Start Recipe
-        </button>
+        <p data-testid="instructions">{strInstructions}</p>
+        <section>
+          {recommended && recommended.map((atual, index) => (
+            <div key={ index } data-testid={ `${index}-recomendation-card` }>
+              <p data-testid={ `${index}-recomendation-title` }>{atual.strMeal}</p>
+              <img src={ atual.strMealThumb } alt="Favoritar" />
+            </div>
+          ))}
+        </section>
+        <Link to={ `/drinks/${idDrink}/in-progress` }>
+          <button
+            className="start-recipe"
+            type="button"
+            data-testid="start-recipe-btn"
+          >
+            Start Recipe
+          </button>
+        </Link>
       </div>);
   };
 
@@ -110,11 +129,18 @@ export default function DrinksDetails({ history }) {
       const { pathname } = history.location;
       const lastItem = pathname.substring(pathname.lastIndexOf('/') + 1);
       const URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
-      const { drinks } = await api(URL);
-      setDrinksDetails(drinks);
-      // details();
+      listIngredients(drinksDetails);
+      if (!drinksDetails.length) {
+        const { drinks } = await api(URL);
+        setDrinksDetails(drinks[0]);
+        listIngredients(drinks[0]);
+      }
     })();
   }, []);
+
+  useEffect(() => {
+    validacao('drinks', drinksDetails);
+  }, [drinksDetails]);
 
   return (
     <div>

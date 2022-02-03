@@ -18,7 +18,7 @@ export default function DrinkCard({ cocktails }) {
     toggleSearchDrinkCat,
     changeDrinkCategory,
     setChangeDrinkCategory,
-    // setDrinksDetails,
+    setDrinksDetails,
   } = useContext(context);
 
   useEffect(() => {
@@ -40,14 +40,9 @@ export default function DrinkCard({ cocktails }) {
     }
   };
 
-  // const saveDetails = () => {
-
-  // };
-
   const allCategories = () => {
     setToggleSearchDrinkCat(false);
   };
-
   return (
     <div>
       <button
@@ -72,7 +67,14 @@ export default function DrinkCard({ cocktails }) {
           ? (
             searchDrinkCategories.slice(0, DRINK_MAX_RESULT).map((drink, index) => (
               <Link key={ index } to={ `/drinks/${drink.idDrink}` }>
-                <div data-testid={ `${index}-recipe-card` } key={ index }>
+                <div
+                  data-testid={ `${index}-recipe-card` }
+                  key={ index }
+                  role="button"
+                  onClick={ () => setDrinksDetails(drink) }
+                  tabIndex={ index }
+                  onKeyPress={ () => setDrinksDetails(drink) }
+                >
                   <p data-testid={ `${index}-card-name` }>{ drink.strDrink }</p>
                   <img
                     key={ index }
@@ -90,6 +92,10 @@ export default function DrinkCard({ cocktails }) {
                 <div
                   data-testid={ `${index}-recipe-card` }
                   key={ index }
+                  role="button"
+                  onClick={ () => setDrinksDetails(drink) }
+                  tabIndex={ index }
+                  onKeyPress={ () => setDrinksDetails(drink) }
                 >
                   <p data-testid={ `${index}-card-name` }>{ drink.strDrink }</p>
                   <img

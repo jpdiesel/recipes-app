@@ -15,6 +15,8 @@ function Provider({ children }) {
   const [drinksIngredients, setDrinksIngredients] = useState([]);
   const [toggleSearchFoodCat, setToggleSearchFoodCat] = useState(false);
   const [toggleSearchDrinkCat, setToggleSearchDrinkCat] = useState(false);
+  const [foodIngredientSearch, setFoodIngredientSearch] = useState('');
+  const [drinkIngredientSearch, setDrinkIngredientSearch] = useState('');
   const [changeFoodCategory, setChangeFoodCategory] = useState('');
   const [changeDrinkCategory, setChangeDrinkCategory] = useState('');
   const [randomDrink, setRandomDrink] = useState([]);
@@ -22,8 +24,11 @@ function Provider({ children }) {
   const [update, setUpdate] = useState(false);
   const [procurado, setProcurado] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-  const [foodDetails, setFoodDetails] = useState('');
-  const [drinksDetails, setDrinksDetails] = useState('');
+  const [foodDetails, setFoodDetails] = useState([]);
+  const [drinksDetails, setDrinksDetails] = useState([]);
+  const [ingredients, setIngredients] = useState('');
+  const [favoritedDrink, setFavoritedDrink] = useState(false);
+  const [favoritedFood, setFavoritedFood] = useState(false);
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleData = (data) => {
@@ -44,6 +49,46 @@ function Provider({ children }) {
       }
     } catch {
       global.alert(errorMessage);
+    }
+  };
+
+  const listIngredients = (revenue) => {
+    const igredientes = Object.keys(revenue)
+      .filter((atual) => atual.includes('strIngredient'));
+    let ingredient = [];
+    for (let i = 0; i < igredientes.length; i += 1) {
+      const atual = `strIngredient${i + 1}`;
+      const medidas = `strMeasure${i + 1}`;
+      const juntos = `${revenue[atual]} ${revenue[medidas]}`;
+
+      if (revenue[atual] && revenue[medidas]) {
+        ingredient = [...ingredient, juntos];
+      } else if (revenue[atual]) {
+        ingredient = [...ingredient, revenue[atual]];
+      } else if (revenue[medidas]) {
+        ingredient = [...ingredient, revenue[medidas]];
+      }
+    }
+    const filtrado = ingredient.filter((atual) => (
+      atual !== ' '
+    ));
+    setIngredients(filtrado);
+  };
+
+  const validacao = (fonte, receitaAtual) => {
+    const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (fonte === 'drinks' && local) {
+      const validaçãoOn = local.filter((atual) => receitaAtual.idDrink === atual.id);
+
+      if (validaçãoOn.length >= 1) {
+        setFavoritedDrink(true);
+      } else { setFavoritedDrink(false); }
+    } else if (fonte === 'foods' && local) {
+      const validaçãoOn = local.filter((atual) => receitaAtual.idMeal === atual.id);
+
+      if (validaçãoOn.length >= 1) {
+        setFavoritedFood(true);
+      } else { setFavoritedFood(false); }
     }
   };
 
@@ -80,6 +125,10 @@ function Provider({ children }) {
     setChangeFoodCategory,
     changeDrinkCategory,
     setChangeDrinkCategory,
+    foodIngredientSearch,
+    setFoodIngredientSearch,
+    drinkIngredientSearch,
+    setDrinkIngredientSearch,
     update,
     setUpdate,
     result,
@@ -92,6 +141,13 @@ function Provider({ children }) {
     setFoodDetails,
     drinksDetails,
     setDrinksDetails,
+    listIngredients,
+    ingredients,
+    favoritedDrink,
+    setFavoritedDrink,
+    validacao,
+    favoritedFood,
+    setFavoritedFood,
   };
   return (
     <context.Provider value={ contextValue }>
