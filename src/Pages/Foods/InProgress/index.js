@@ -109,8 +109,19 @@ function InProgressFoods({ history }) {
                 </li>
               )) : null}
             </ul>
+            {/* Instruções */}
+            <p data-testid="instructions">{response.strInstructions}</p>
           </>
         ) : null}
+      {/* Botão de finalizar receita */}
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        // src={ whiteHeartIcon }
+        // onClick={ () => favorite() }
+      >
+        Finish Recipe
+      </button>
     </div>
   );
 }
