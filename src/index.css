@@ -34,3 +34,8 @@ code {
 .pCopy {
   margin-top: 8px;
 }
+
+.finish-recipe {
+  bottom: 0;
+  position: fixed;
+}

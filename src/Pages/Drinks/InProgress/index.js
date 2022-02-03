@@ -55,6 +55,41 @@ function InProgressDrinks({ history }) {
     listIngredients(response);
   }, [response]);
 
+  const concluido = () => {
+    const { strCategory, strAlcoholic, strTags, strDrinkThumb, strDrink } = response;
+
+    // busca a data atual: https://www.horadecodar.com.br/2021/04/03/como-pegar-a-data-atual-com-javascript/
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    const dataAtual = `${dia}/${mes}/${ano}`;
+
+    // Pega informações do localStorege
+    const local = JSON.parse(localStorage.getItem('doneRecipes'));
+
+    const atual = {
+      id,
+      type: 'drink',
+      nationality: '',
+      category: strCategory,
+      alcoholicOrNot: strAlcoholic,
+      name: strDrink,
+      image: strDrinkThumb,
+      doneDate: dataAtual,
+      tags: strTags,
+    };
+
+    if (local) {
+      const novo = [...local, atual];
+      localStorage.setItem('doneRecipes', JSON.stringify(novo));
+    } else {
+      localStorage.setItem('doneRecipes', JSON.stringify([atual]));
+    }
+
+    history.push('/done-recipes');
+  };
+
   return (
     <div>
       {response
@@ -125,9 +160,10 @@ function InProgressDrinks({ history }) {
       {/* Botão de finalizar receita */}
       <button
         type="button"
+        className="finish-recipe"
         data-testid="finish-recipe-btn"
         // src={ whiteHeartIcon }
-        // onClick={ () => favorite() }
+        onClick={ () => concluido() }
       >
         Finish Recipe
       </button>
@@ -138,6 +174,7 @@ function InProgressDrinks({ history }) {
 InProgressDrinks.propTypes = {
   history: PropTypes.shape({
     location: PropTypes.func,
+    push: PropTypes.func,
   }).isRequired,
 };
 
