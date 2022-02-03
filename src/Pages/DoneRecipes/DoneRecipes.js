@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../Components/Header';
 import shareIcon from '../../images/shareIcon.svg';
+import './DoneRecipes.css';
 
 function DoneRecipes({ history }) {
   const [doneRecipes, setDoneRecipes] = useState([]);
@@ -10,14 +11,15 @@ function DoneRecipes({ history }) {
   const [doneRecipesCopiedLink, setDoneRecipesCopiedLink] = useState(false);
 
   useEffect(() => {
-    const getAllDoneRecipes = JSON.parse(getLocalStorage('doneRecipes'));
+    const getAllDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     setDoneRecipes(getAllDoneRecipes);
+    console.log(getAllDoneRecipes);
   }, []);
 
   console.log(doneRecipes);
 
   const copyToClipboard = (type, id) => {
-    navigator.clipboard.writeText(`http://localhost:3000/${type}/${id}`);
+    navigator.clipboard.writeText(`http://localhost:3000/${type}s/${id}`);
     setDoneRecipesCopiedLink(true);
   };
 
@@ -58,6 +60,7 @@ function DoneRecipes({ history }) {
                 data-testid={ `${index}-horizontal-image` }
                 src={ item.image }
                 alt="img"
+                className="img-done-recipes imagem"
               />
             </Link>
 

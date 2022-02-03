@@ -77,7 +77,7 @@ function InProgressDrinks({ history }) {
       name: strDrink,
       image: strDrinkThumb,
       doneDate: dataAtual,
-      tags: strTags,
+      tags: [strTags],
     };
 
     if (local) {

@@ -70,7 +70,7 @@ function InProgressFoods({ history }) {
       name: strMeal,
       image: strMealThumb,
       doneDate: dataAtual,
-      tags: strTags,
+      tags: [strTags],
     };
 
     if (local) {
