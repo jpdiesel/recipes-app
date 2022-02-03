@@ -17,10 +17,11 @@ export default function FoodDetails({ history }) {
     validacao,
     favoritedFood,
     setFavoritedFood,
+    copyToClipboard,
+    copiedFoodLink,
   } = useContext(context);
 
   const [drinkRecommended, setDrinkRecommended] = useState([]);
-  const [copiedFoodLink, setFoodCopiedLink] = useState(false);
 
   // API para retornar as bebidas recomendadas
   useEffect(() => {
@@ -42,10 +43,10 @@ export default function FoodDetails({ history }) {
       idMeal,
     } = foodDetails;
 
-    const copyToClipboard = () => {
-      navigator.clipboard.writeText(`http://localhost:3000/foods/${idMeal}`);
-      setFoodCopiedLink(true);
-    };
+    // const copyToClipboard = () => {
+    //   navigator.clipboard.writeText(`http://localhost:3000/foods/${idMeal}`);
+    //   setFoodCopiedLink(true);
+    // };
 
     const favorite = () => {
       if (favoritedFood) {
@@ -65,7 +66,7 @@ export default function FoodDetails({ history }) {
           type="button"
           data-testid="share-btn"
           src={ shareIcon }
-          onClick={ () => copyToClipboard() }
+          onClick={ () => copyToClipboard(idMeal) }
         >
           <img src={ shareIcon } alt="Compartilhar" />
           { copiedFoodLink ? <p>Link copied!</p> : null }
