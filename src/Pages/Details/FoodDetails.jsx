@@ -6,6 +6,7 @@ import favoritesDetails from '../../Functions/remove';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import './FoodDetails.css';
 
 export default function FoodDetails({ history }) {
   const {

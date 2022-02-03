@@ -136,7 +136,7 @@ describe('35 - Desenvolva a tela de forma que contenha uma imagem da receita, o 
     cy.get('[data-testid="2-ingredient-name-and-measure"]').contains('1 oz');
 
     cy.get('[data-testid="instructions"]').contains(oneDrink.drinks[0].strInstructions);
-    
+
     cy.get('[data-testid*="recomendation-card"]').should('exist');
   });
 });
@@ -390,7 +390,7 @@ describe('43 - Implemente a solução de forma que, ao clicar no botão de compa
     cy.visit('http://localhost:3000/drinks/178319', {
       onBeforeLoad(win) {
         win.fetch = fetchMock;
-        
+
         cy.stub(win.navigator.clipboard, 'writeText').resolves('URL').as('clipboard');
       },
     });
@@ -605,7 +605,7 @@ describe('46 - Salve as receitas favoritas no `localStorage` na chave `favoriteR
           type: 'drink',
           nationality: '',
           category: 'Cocktail',
-          alcoholicOrNot:  'Alcoholic',
+          alcoholicOrNot: 'Alcoholic',
           name: 'Aquamarine',
           image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
         },

@@ -29,6 +29,7 @@ function Provider({ children }) {
   const [ingredients, setIngredients] = useState('');
   const [favoritedDrink, setFavoritedDrink] = useState(false);
   const [favoritedFood, setFavoritedFood] = useState(false);
+  const [exFoodsNationalities, setExFoodsNationalities] = useState([]);
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleData = (data) => {
@@ -148,6 +149,8 @@ function Provider({ children }) {
     validacao,
     favoritedFood,
     setFavoritedFood,
+    exFoodsNationalities,
+    setExFoodsNationalities,
   };
   return (
     <context.Provider value={ contextValue }>
