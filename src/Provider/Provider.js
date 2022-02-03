@@ -92,8 +92,17 @@ function Provider({ children }) {
       } else { setFavoritedFood(false); }
     }
   };
+  const [copiedFoodLink, setFoodCopiedLink] = useState(false);
+
+  const copyToClipboard = (idMeal) => {
+    navigator.clipboard.writeText(`http://localhost:3000/foods/${idMeal}`);
+    setFoodCopiedLink(true);
+  };
 
   const contextValue = {
+    copyToClipboard,
+    copiedFoodLink,
+    setFoodCopiedLink,
     showInput,
     setShowInput,
     setResult,
