@@ -14,6 +14,8 @@ function InProgressFoods({ history }) {
     favoritedFood,
     setFavoritedFood,
     validacao,
+    ingredients,
+    listIngredients,
   } = useContext(context);
 
   // pegar id do URL
@@ -47,7 +49,10 @@ function InProgressFoods({ history }) {
   }, []);
 
   useEffect(() => {
+    // verificar se ta favorito
     validacao('foods', response);
+    // atualiza a lista de igredientes
+    listIngredients(response);
   }, [response]);
 
   return (
@@ -98,7 +103,7 @@ function InProgressFoods({ history }) {
               {ingredients ? ingredients.map((atual, index) => (
                 <li
                   key={ index }
-                  data-testid={ `${index}-ingredient-name-and-measure` }
+                  data-testid={ `${index}-ingredient-step` }
                 >
                   {atual}
                 </li>
