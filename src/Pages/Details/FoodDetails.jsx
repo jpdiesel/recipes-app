@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import context from '../../Context/Context';
+import favoritesDetails from '../../Functions/remove';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
@@ -13,12 +14,13 @@ export default function FoodDetails({ history }) {
     setFoodDetails,
     ingredients,
     listIngredients,
-    favoriteDetails,
+    validacao,
+    favoritedFood,
+    setFavoritedFood,
   } = useContext(context);
 
   const [drinkRecommended, setDrinkRecommended] = useState([]);
   const [copiedFoodLink, setFoodCopiedLink] = useState(false);
-  const [favoritedFood, setFavoritedFood] = useState(false);
 
   // API para retornar as bebidas recomendadas
   useEffect(() => {
@@ -48,9 +50,10 @@ export default function FoodDetails({ history }) {
     const favorite = () => {
       if (favoritedFood) {
         setFavoritedFood(false);
+        favoritesDetails('removeFoods', foodDetails);
       } else {
         setFavoritedFood(true);
-        favoriteDetails('foods', foodDetails);
+        favoritesDetails('foods', foodDetails);
       }
     };
 
@@ -141,15 +144,17 @@ export default function FoodDetails({ history }) {
       const lastItem = pathname.substring(pathname.lastIndexOf('/') + 1);
       const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
       listIngredients(foodDetails);
-      console.log(foodDetails);
       if (!foodDetails.length) {
-        console.log('entrou!!!');
         const { meals } = await api(URL);
         setFoodDetails(meals[0]);
         listIngredients(meals[0]);
       }
     })();
   }, []);
+
+  useEffect(() => {
+    validacao('foods', foodDetails);
+  }, [foodDetails]);
 
   return (
     <div>

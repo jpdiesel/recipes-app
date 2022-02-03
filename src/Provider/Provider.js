@@ -24,11 +24,11 @@ function Provider({ children }) {
   const [update, setUpdate] = useState(false);
   const [procurado, setProcurado] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-
   const [foodDetails, setFoodDetails] = useState([]);
   const [drinksDetails, setDrinksDetails] = useState([]);
-
   const [ingredients, setIngredients] = useState('');
+  const [favoritedDrink, setFavoritedDrink] = useState(false);
+  const [favoritedFood, setFavoritedFood] = useState(false);
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleData = (data) => {
@@ -55,9 +55,7 @@ function Provider({ children }) {
   const listIngredients = (revenue) => {
     const igredientes = Object.keys(revenue)
       .filter((atual) => atual.includes('strIngredient'));
-
     let ingredient = [];
-
     for (let i = 0; i < igredientes.length; i += 1) {
       const atual = `strIngredient${i + 1}`;
       const medidas = `strMeasure${i + 1}`;
@@ -77,79 +75,20 @@ function Provider({ children }) {
     setIngredients(filtrado);
   };
 
-  const foods = (apiNew) => {
+  const validacao = (fonte, receitaAtual) => {
     const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (fonte === 'drinks' && local) {
+      const validaçãoOn = local.filter((atual) => receitaAtual.idDrink === atual.id);
 
-    const { idMeal, strMeal, strCategory, strMealThumb, strArea } = apiNew;
+      if (validaçãoOn.length >= 1) {
+        setFavoritedDrink(true);
+      } else { setFavoritedDrink(false); }
+    } else if (fonte === 'foods' && local) {
+      const validaçãoOn = local.filter((atual) => receitaAtual.idMeal === atual.id);
 
-    if (local) {
-      const salvar = [...local, {
-        id: idMeal,
-        type: 'food',
-        nationality: strArea,
-        category: strCategory,
-        alcoholicOrNot: '',
-        name: strMeal,
-        image: strMealThumb,
-      }];
-
-      localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
-    } else {
-      const salvar = [{
-        id: idMeal,
-        type: 'food',
-        nationality: strArea,
-        category: strCategory,
-        alcoholicOrNot: '',
-        name: strMeal,
-        image: strMealThumb,
-      }];
-
-      localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
-    }
-  };
-
-  const favoriteDetails = (fonte, apiNew) => {
-    if (fonte === 'drinks') {
-      const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
-
-      console.log('cheguei');
-
-      const {
-        idDrink,
-        strDrinkThumb,
-        strCategory,
-        strDrink,
-        strAlcoholic,
-      } = apiNew;
-
-      if (local) {
-        const salvar = [...local, {
-          id: idDrink,
-          type: 'drink',
-          nationality: '',
-          category: strCategory,
-          alcoholicOrNot: strAlcoholic,
-          name: strDrink,
-          image: strDrinkThumb,
-        }];
-
-        localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
-      } else {
-        const salvar = [{
-          id: idDrink,
-          type: 'drink',
-          nationality: '',
-          category: strCategory,
-          alcoholicOrNot: strAlcoholic,
-          name: strDrink,
-          image: strDrinkThumb,
-        }];
-
-        localStorage.setItem('favoriteRecipes', JSON.stringify(salvar));
-      }
-    } else if (fonte === 'foods') {
-      foods(apiNew);
+      if (validaçãoOn.length >= 1) {
+        setFavoritedFood(true);
+      } else { setFavoritedFood(false); }
     }
   };
 
@@ -204,7 +143,11 @@ function Provider({ children }) {
     setDrinksDetails,
     listIngredients,
     ingredients,
-    favoriteDetails,
+    favoritedDrink,
+    setFavoritedDrink,
+    validacao,
+    favoritedFood,
+    setFavoritedFood,
   };
   return (
     <context.Provider value={ contextValue }>

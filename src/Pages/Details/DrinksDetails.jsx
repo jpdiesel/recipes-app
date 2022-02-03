@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import context from '../../Context/Context';
+import favoritesDetails from '../../Functions/remove';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
@@ -10,14 +11,15 @@ import './DrinksDetails.css';
 export default function DrinksDetails({ history }) {
   const [recommended, setRecommended] = useState([]);
   const [copiedDrinkLink, setCopiedDrinkLink] = useState(false);
-  const [favoritedDrink, setFavoritedDrink] = useState(false);
   const {
     drinksDetails,
     api,
     setDrinksDetails,
     ingredients,
     listIngredients,
-    favoriteDetails,
+    favoritedDrink,
+    setFavoritedDrink,
+    validacao,
   } = useContext(context);
 
   useEffect(() => {
@@ -46,9 +48,10 @@ export default function DrinksDetails({ history }) {
     const favorite = () => {
       if (favoritedDrink) {
         setFavoritedDrink(false);
+        favoritesDetails('removeDrinks', drinksDetails);
       } else {
         setFavoritedDrink(true);
-        favoriteDetails('drinks', drinksDetails);
+        favoritesDetails('drinks', drinksDetails);
       }
     };
 
@@ -134,6 +137,10 @@ export default function DrinksDetails({ history }) {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    validacao('drinks', drinksDetails);
+  }, [drinksDetails]);
 
   return (
     <div>
