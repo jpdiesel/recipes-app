@@ -19,3 +19,16 @@ code {
   width: 200px;
   height: 200px;
 }
+
+.spanCopy {
+  display: flex;
+  align-items: center;
+}
+
+.imgCopy {
+  margin-right: 5px;
+}
+
+.pCopy {
+  margin-top: 8px;
+}

@@ -65,8 +65,10 @@ export default function DrinksDetails({ history }) {
           src={ shareIcon }
           onClick={ () => copyToClipboard() }
         >
-          <img src={ shareIcon } alt="Compartilhar" />
-          { copiedDrinkLink ? <p>Link copied!</p> : null }
+          <span className="spanCopy">
+            <img src={ shareIcon } alt="Compartilhar" className="imgCopy" />
+            { copiedDrinkLink ? <p className="pCopy">Link copied!</p> : null }
+          </span>
         </button>
         { favoritedDrink
           ? (

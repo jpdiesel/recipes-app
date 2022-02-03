@@ -67,8 +67,10 @@ export default function FoodDetails({ history }) {
           src={ shareIcon }
           onClick={ () => copyToClipboard() }
         >
-          <img src={ shareIcon } alt="Compartilhar" />
-          { copiedFoodLink ? <p>Link copied!</p> : null }
+          <span className="spanCopy">
+            <img src={ shareIcon } alt="Compartilhar" className="imgCopy" />
+            { copiedFoodLink ? <p className="pCopy">Link copied!</p> : null }
+          </span>
         </button>
 
         { favoritedFood
