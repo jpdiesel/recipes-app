@@ -6,6 +6,7 @@ import favoritesDetails from '../../Functions/remove';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import './FoodDetails.css';
 
 export default function FoodDetails({ history }) {
   const {
@@ -147,7 +148,7 @@ export default function FoodDetails({ history }) {
       const lastItem = pathname.substring(pathname.lastIndexOf('/') + 1);
       const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
       listIngredients(foodDetails);
-      if (!foodDetails.length) {
+      if (!foodDetails) {
         const { meals } = await api(URL);
         setFoodDetails(meals[0]);
         listIngredients(meals[0]);
