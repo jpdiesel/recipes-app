@@ -105,21 +105,22 @@ export default function FoodDetails({ history }) {
               {atual}
             </li>
           )) : null}
-
-          <p data-testid="instructions">{strInstructions}</p>
-
-          <iframe
-            data-testid="video"
-            width="560"
-            height="315"
-            src={ strVideo }
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer;
-          autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
         </ul>
+
+        <p data-testid="instructions">{strInstructions}</p>
+
+        <iframe
+          data-testid="video"
+          width="560"
+          height="315"
+          src={ strVideo }
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer;
+          autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+
         <section>
           {drinkRecommended && drinkRecommended.map((atual, index) => (
             <div key={ index } data-testid={ `${index}-recomendation-card` }>

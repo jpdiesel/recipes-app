@@ -1,12 +1,20 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import context from '../../../Context/Context';
+import favoritesDetails from '../../../Functions/remove';
+import blackHeartIcon from '../../../images/blackHeartIcon.svg';
 import shareIcon from '../../../images/shareIcon.svg';
+import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
 
 function InProgressFoods({ history }) {
   const [response, setResponse] = useState([]);
-  const [copiedDrinkLink, setCopiedDrinkLink] = useState(false);
-  const { api } = useContext(context);
+  const [copiedkLink, setCopiedkLink] = useState(false);
+  const {
+    api,
+    favoritedFood,
+    setFavoritedFood,
+    validacao,
+  } = useContext(context);
 
   // pegar id do URL
   const { pathname } = history.location;
@@ -15,7 +23,17 @@ function InProgressFoods({ history }) {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(`http://localhost:3000/foods/${id}/in-progress`);
-    setCopiedDrinkLink(true);
+    setCopiedkLink(true);
+  };
+
+  const favorite = () => {
+    if (favoritedFood) {
+      setFavoritedFood(false);
+      favoritesDetails('removeFoods', response);
+    } else {
+      setFavoritedFood(true);
+      favoritesDetails('foods', response);
+    }
   };
 
   useEffect(() => {
@@ -28,15 +46,20 @@ function InProgressFoods({ history }) {
     })();
   }, []);
 
+  useEffect(() => {
+    validacao('foods', response);
+  }, [response]);
+
   return (
     <div>
-      <p>InProgressFoods</p>
       {response
         ? (
-          <div>
+          <>
+            {/* Titulo e Categoria */}
             <h3 data-testid="recipe-title">{response.strMeal}</h3>
+            <h5 data-testid="recipe-category">{response.strCategory}</h5>
             <img src={ response.strMealThumb } alt="foto" data-testid="recipe-photo" />
-
+            {/* Botão de compartilhar */}
             <button
               type="button"
               data-testid="share-btn"
@@ -45,12 +68,44 @@ function InProgressFoods({ history }) {
             >
               <span className="spanCopy">
                 <img src={ shareIcon } alt="Compartilhar" className="imgCopy" />
-                { copiedDrinkLink ? <p className="pCopy">Link copied!</p> : null }
+                { copiedkLink ? <p className="pCopy">Link copied!</p> : null }
               </span>
             </button>
-          </div>
+            {/* Botão de Favoritar */}
+            { favoritedFood
+              ? (
+                <button
+                  type="button"
+                  data-testid="favorite-btn"
+                  src={ blackHeartIcon }
+                  onClick={ () => favorite() }
+                >
+                  <img src={ blackHeartIcon } alt="Favoritar" />
+                </button>
+              )
+              : (
+                <button
+                  type="button"
+                  data-testid="favorite-btn"
+                  src={ whiteHeartIcon }
+                  onClick={ () => favorite() }
+                >
+                  <img src={ whiteHeartIcon } alt="Favoritar" />
+                </button>
+              )}
+            {/* Lista de igredientes */}
+            <ul>
+              {ingredients ? ingredients.map((atual, index) => (
+                <li
+                  key={ index }
+                  data-testid={ `${index}-ingredient-name-and-measure` }
+                >
+                  {atual}
+                </li>
+              )) : null}
+            </ul>
+          </>
         ) : null}
-
     </div>
   );
 }
