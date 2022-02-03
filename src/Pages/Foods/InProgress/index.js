@@ -24,7 +24,7 @@ function InProgressFoods({ history }) {
   const id = pathname.substring(pathname.lastIndexOf('foods/') + FIXO).split('/')[0];
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/foods/${id}/in-progress`);
+    navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
     setCopiedkLink(true);
   };
 
