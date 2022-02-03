@@ -6,6 +6,7 @@ function DoneRecipes({ history }) {
   return (
     <div>
       <Header history={ history } title="Done Recipes" showSearchButton={ false } />
+      <div> oi </div>
     </div>
   );
 }
