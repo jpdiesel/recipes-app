@@ -8,6 +8,8 @@ body {
 
   width: 360px;
   height: 640px;
+
+  padding: 15px;
 }
 
 code {
@@ -31,4 +33,9 @@ code {
 
 .pCopy {
   margin-top: 8px;
+}
+
+.finish-recipe {
+  bottom: 0;
+  position: fixed;
 }

@@ -24,7 +24,7 @@ function InProgressFoods({ history }) {
   const id = pathname.substring(pathname.lastIndexOf('foods/') + FIXO).split('/')[0];
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/foods/${id}/in-progress`);
+    navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
     setCopiedkLink(true);
   };
 
@@ -47,6 +47,41 @@ function InProgressFoods({ history }) {
       setResponse(meals[0]);
     })();
   }, []);
+
+  const concluido = () => {
+    const { strMeal, strCategory, strMealThumb, strArea, strTags } = response;
+
+    // busca a data atual: https://www.horadecodar.com.br/2021/04/03/como-pegar-a-data-atual-com-javascript/
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    const dataAtual = `${dia}/${mes}/${ano}`;
+
+    // Pega informações do localStorege
+    const local = JSON.parse(localStorage.getItem('doneRecipes'));
+
+    const atual = {
+      id,
+      type: 'food',
+      nationality: strArea,
+      category: strCategory,
+      alcoholicOrNot: '',
+      name: strMeal,
+      image: strMealThumb,
+      doneDate: dataAtual,
+      tags: strTags,
+    };
+
+    if (local) {
+      const novo = [...local, atual];
+      localStorage.setItem('doneRecipes', JSON.stringify(novo));
+    } else {
+      localStorage.setItem('doneRecipes', JSON.stringify([atual]));
+    }
+
+    history.push('/done-recipes');
+  };
 
   useEffect(() => {
     // verificar se ta favorito
@@ -99,18 +134,39 @@ function InProgressFoods({ history }) {
                 </button>
               )}
             {/* Lista de igredientes */}
-            <ul>
+            <div className="list-group">
               {ingredients ? ingredients.map((atual, index) => (
-                <li
+                <label
                   key={ index }
+                  className="list-group-item"
+                  htmlFor={ `Imput-${index}` }
                   data-testid={ `${index}-ingredient-step` }
                 >
-                  {atual}
-                </li>
+                  <input
+                    className="form-check-input me-1"
+                    type="checkbox"
+                    value={ atual }
+                    id={ `Imput-${index}` }
+
+                  />
+                  { atual }
+                </label>
               )) : null}
-            </ul>
+            </div>
+            {/* Instruções */}
+            <p data-testid="instructions">{response.strInstructions}</p>
           </>
         ) : null}
+      {/* Botão de finalizar receita */}
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        className="finish-recipe"
+        // src={ whiteHeartIcon }
+        onClick={ () => concluido() }
+      >
+        Finish Recipe
+      </button>
     </div>
   );
 }
@@ -118,6 +174,7 @@ function InProgressFoods({ history }) {
 InProgressFoods.propTypes = {
   history: PropTypes.shape({
     location: PropTypes.func,
+    push: PropTypes.func,
   }).isRequired,
 };
 
