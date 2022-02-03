@@ -99,16 +99,25 @@ function InProgressFoods({ history }) {
                 </button>
               )}
             {/* Lista de igredientes */}
-            <ul>
+            <div className="list-group">
               {ingredients ? ingredients.map((atual, index) => (
-                <li
+                <label
                   key={ index }
+                  className="list-group-item"
+                  htmlFor={ `Imput-${index}` }
                   data-testid={ `${index}-ingredient-step` }
                 >
-                  {atual}
-                </li>
+                  <input
+                    className="form-check-input me-1"
+                    type="checkbox"
+                    value={ atual }
+                    id={ `Imput-${index}` }
+
+                  />
+                  { atual }
+                </label>
               )) : null}
-            </ul>
+            </div>
             {/* Instruções */}
             <p data-testid="instructions">{response.strInstructions}</p>
           </>
