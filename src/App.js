@@ -16,6 +16,7 @@ import FavoriteRecipes from './Pages/FavoriteRecipes/FavoriteRecipes';
 import Foods from './Pages/Foods/Foods';
 import InProgressFoods from './Pages/Foods/InProgress';
 import Login from './Pages/Login/Login';
+import NotFound from './Pages/Not Found/NotFound';
 import Profile from './Pages/Profile/Profile';
 import Provider from './Provider/Provider';
 
@@ -49,6 +50,7 @@ function App() {
         <Route exact path="/profile" component={ Profile } />
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
+        <Route path="/explore/drinks/nationalities" component={ NotFound } />
       </Provider>
     </Switch>
   );
