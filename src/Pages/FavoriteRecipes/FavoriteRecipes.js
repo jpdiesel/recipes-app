@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import FavoriteCard from '../../Components/FavoriteCard';
 import Header from '../../Components/Header';
+import './FavoriteRecipes.css';
 
 function FavoriteRecipes({ history }) {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
