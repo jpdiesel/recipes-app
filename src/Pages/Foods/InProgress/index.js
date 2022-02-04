@@ -51,7 +51,7 @@ function InProgressFoods({ history }) {
   const concluido = () => {
     const { strMeal, strCategory, strMealThumb, strArea, strTags } = response;
 
-    // busca a data atual: https://www.horadecodar.com.br/2021/04/03/como-pegar-a-data-atual-com-javascript/
+    // busca a data atual no site: https://www.horadecodar.com.br/2021/04/03/como-pegar-a-data-atual-com-javascript/
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0');
