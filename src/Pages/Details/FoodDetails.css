@@ -3,7 +3,7 @@ section {
   white-space: nowrap;
 }
 
-button .start-recipe {
+.start-recipe {
   bottom: 0;
   position: fixed;
 }

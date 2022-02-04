@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Header from '../../Components/Header';
+import React, { useEffect, useState } from 'react';
 import FavoriteCard from '../../Components/FavoriteCard';
+import Header from '../../Components/Header';
 
 function FavoriteRecipes({ history }) {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
@@ -51,16 +51,18 @@ function FavoriteRecipes({ history }) {
         Drinks
       </button>
       {
-        favoriteRecipes.map((favorite, index) => (
-          <FavoriteCard
-            index={ index }
-            key={ favorite.id }
-            favorite={ favorite }
-            refreshFavorites={ refreshFavorites }
-            setFavoriteRecipes={ setFavoriteRecipes }
-            handleUpdate={ handleUpdate }
-          />
-        ))
+        favoriteRecipes
+          ? favoriteRecipes.map((favorite, index) => (
+            <FavoriteCard
+              index={ index }
+              key={ favorite.id }
+              favorite={ favorite }
+              refreshFavorites={ refreshFavorites }
+              setFavoriteRecipes={ setFavoriteRecipes }
+              handleUpdate={ handleUpdate }
+            />
+          ))
+          : null
       }
 
     </div>

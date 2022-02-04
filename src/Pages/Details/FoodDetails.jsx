@@ -69,8 +69,10 @@ export default function FoodDetails({ history }) {
           src={ shareIcon }
           onClick={ () => copyToClipboard(idMeal) }
         >
-          <img src={ shareIcon } alt="Compartilhar" />
-          { copiedFoodLink ? <p>Link copied!</p> : null }
+          <span className="spanCopy">
+            <img src={ shareIcon } alt="Compartilhar" className="imgCopy" />
+            { copiedFoodLink ? <p className="pCopy">Link copied!</p> : null }
+          </span>
         </button>
 
         { favoritedFood
@@ -105,21 +107,22 @@ export default function FoodDetails({ history }) {
               {atual}
             </li>
           )) : null}
-
-          <p data-testid="instructions">{strInstructions}</p>
-
-          <iframe
-            data-testid="video"
-            width="560"
-            height="315"
-            src={ strVideo }
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer;
-          autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
         </ul>
+
+        <p data-testid="instructions">{strInstructions}</p>
+
+        <iframe
+          data-testid="video"
+          width="560"
+          height="315"
+          src={ strVideo }
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer;
+          autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+
         <section>
           {drinkRecommended && drinkRecommended.map((atual, index) => (
             <div key={ index } data-testid={ `${index}-recomendation-card` }>
@@ -146,7 +149,7 @@ export default function FoodDetails({ history }) {
       const lastItem = pathname.substring(pathname.lastIndexOf('/') + 1);
       const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
       listIngredients(foodDetails);
-      if (!foodDetails.length) {
+      if (!foodDetails) {
         const { meals } = await api(URL);
         setFoodDetails(meals[0]);
         listIngredients(meals[0]);

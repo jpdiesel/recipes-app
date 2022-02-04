@@ -5,6 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  width: 360px;
+  height: 640px;
+
+  padding: 15px;
 }
 
 code {
@@ -15,4 +20,22 @@ code {
 .imagem {
   width: 200px;
   height: 200px;
+}
+
+.spanCopy {
+  display: flex;
+  align-items: center;
+}
+
+.imgCopy {
+  margin-right: 5px;
+}
+
+.pCopy {
+  margin-top: 8px;
+}
+
+.finish-recipe {
+  bottom: 0;
+  position: fixed;
 }
