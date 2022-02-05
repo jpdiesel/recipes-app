@@ -5,6 +5,7 @@ import favoritesDetails from '../../../Functions/remove';
 import blackHeartIcon from '../../../images/blackHeartIcon.svg';
 import shareIcon from '../../../images/shareIcon.svg';
 import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
+import IngredientsListFoods from './IngredientsListFoods';
 
 function InProgressFoods({ history }) {
   const [response, setResponse] = useState([]);
@@ -16,6 +17,7 @@ function InProgressFoods({ history }) {
     validacao,
     ingredients,
     listIngredients,
+    verificaCheck,
   } = useContext(context);
 
   // pegar id do URL
@@ -45,6 +47,7 @@ function InProgressFoods({ history }) {
       console.log(URL);
       const { meals } = await api(URL);
       setResponse(meals[0]);
+      verificaCheck(id, 'meals');
     })();
   }, []);
 
@@ -134,29 +137,15 @@ function InProgressFoods({ history }) {
                 </button>
               )}
             {/* Lista de igredientes */}
-            <div className="list-group">
-              {ingredients ? ingredients.map((atual, index) => (
-                <label
-                  key={ index }
-                  className="list-group-item"
-                  htmlFor={ `Imput-${index}` }
-                  data-testid={ `${index}-ingredient-step` }
-                >
-                  <input
-                    className="form-check-input me-1"
-                    type="checkbox"
-                    value={ atual }
-                    id={ `Imput-${index}` }
+            {ingredients
+              ? <IngredientsListFoods ingredients={ ingredients } id={ id } />
+              : null}
 
-                  />
-                  { atual }
-                </label>
-              )) : null}
-            </div>
             {/* Instruções */}
             <p data-testid="instructions">{response.strInstructions}</p>
           </>
         ) : null}
+
       {/* Botão de finalizar receita */}
       <button
         type="button"
