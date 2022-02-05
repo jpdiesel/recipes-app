@@ -5,6 +5,7 @@ import favoritesDetails from '../../../Functions/remove';
 import blackHeartIcon from '../../../images/blackHeartIcon.svg';
 import shareIcon from '../../../images/shareIcon.svg';
 import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
+import IngredientsListDrink from './IngredientsListDrink';
 
 function InProgressDrinks({ history }) {
   const [response, setResponse] = useState([]);
@@ -16,6 +17,7 @@ function InProgressDrinks({ history }) {
     ingredients,
     validacao,
     listIngredients,
+    verificaCheck,
   } = useContext(context);
 
   // pegar id do URL
@@ -42,9 +44,9 @@ function InProgressDrinks({ history }) {
     (async () => {
       // pegar dados da API
       const URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-      console.log(URL);
       const { drinks } = await api(URL);
       setResponse(drinks[0]);
+      verificaCheck(id, 'cocktails');
     })();
   }, []);
 
@@ -135,28 +137,16 @@ function InProgressDrinks({ history }) {
               )}
 
             {/* Lista de igredientes */}
-            <div className="list-group">
-              {ingredients ? ingredients.map((atual, index) => (
-                <label
-                  key={ index }
-                  className="list-group-item"
-                  htmlFor={ `Imput-${index}` }
-                  data-testid={ `${index}-ingredient-step` }
-                >
-                  <input
-                    className="form-check-input me-1"
-                    type="checkbox"
-                    value=""
-                    id={ `Imput-${index}` }
-                  />
-                  { atual }
-                </label>
-              )) : null}
-            </div>
+
+            {ingredients
+              ? <IngredientsListDrink ingredients={ ingredients } id={ id } />
+              : null}
+
             {/* Instruções */}
             <p data-testid="instructions">{response.strInstructionsIT}</p>
           </>
         ) : null}
+
       {/* Botão de finalizar receita */}
       <button
         type="button"
