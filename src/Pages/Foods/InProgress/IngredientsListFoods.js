@@ -8,7 +8,6 @@ function IngredientsListFoods({ ingredients, id }) {
   const [select, setSelect] = useState('');
 
   const trabamento = () => {
-    console.log(ingredients);
     let desmarcado = ingredients;
     let tratadoMarc = [];
 
@@ -49,7 +48,10 @@ function IngredientsListFoods({ ingredients, id }) {
             onChange={ (e) => selecao(e) }
             checked={ status }
           />
-          { name }
+
+          {
+            status ? <s>{ name }</s> : name
+          }
         </label>
       ))
         : ingredients.map((agora, index) => (

@@ -50,7 +50,9 @@ function IngredientsListDrink({ ingredients, id }) {
             onChange={ (e) => selecao(e) }
             checked={ status }
           />
-          { name }
+          {
+            status ? <s>{ name }</s> : name
+          }
         </label>
       ))
         : ingredients.map((agora, index) => (

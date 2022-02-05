@@ -44,7 +44,6 @@ function InProgressFoods({ history }) {
     (async () => {
       // pegar dados da API
       const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-      console.log(URL);
       const { meals } = await api(URL);
       setResponse(meals[0]);
       verificaCheck(id, 'meals');
