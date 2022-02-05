@@ -104,8 +104,6 @@ function Provider({ children }) {
   const verificaCheck = (id, fonte) => {
     const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (local && local[fonte] && local[fonte][id]) {
-      // const salvosAtual = local[fonte];
-      // const salvosId = salvosAtual[id];
       setSelecionado(local[fonte][id]);
     }
   };
