@@ -18,6 +18,7 @@ function InProgressFoods({ history }) {
     ingredients,
     listIngredients,
     verificaCheck,
+    botao,
   } = useContext(context);
 
   // pegar id do URL
@@ -150,7 +151,7 @@ function InProgressFoods({ history }) {
         type="button"
         data-testid="finish-recipe-btn"
         className="finish-recipe"
-        // src={ whiteHeartIcon }
+        disabled={ !botao }
         onClick={ () => concluido() }
       >
         Finish Recipe

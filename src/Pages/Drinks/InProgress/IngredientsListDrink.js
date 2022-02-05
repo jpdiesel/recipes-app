@@ -4,7 +4,7 @@ import context from '../../../Context/Context';
 import favoritesDetails from '../../../Functions/remove';
 
 function IngredientsListDrink({ ingredients, id }) {
-  const { selecionado, verificaCheck } = useContext(context);
+  const { selecionado, verificaCheck, setBotao } = useContext(context);
   const [select, setSelect] = useState('');
 
   const trabamento = () => {
@@ -31,6 +31,12 @@ function IngredientsListDrink({ ingredients, id }) {
 
   useEffect(() => {
     trabamento();
+
+    if (selecionado.length === ingredients.length) {
+      setBotao(true);
+    } else {
+      setBotao(false);
+    }
   }, [ingredients, selecionado]);
 
   return (
@@ -82,10 +88,8 @@ IngredientsListDrink.propTypes = {
   ingredients: PropTypes.shape({
     map: PropTypes.func.isRequired,
     filter: PropTypes.func.isRequired,
+    length: PropTypes.func.isRequired,
   }).isRequired,
-  // selecionado: PropTypes.shape({
-  //   map: PropTypes.func.isRequired,
-  // }).isRequired,
   id: PropTypes.string.isRequired,
 };
 
