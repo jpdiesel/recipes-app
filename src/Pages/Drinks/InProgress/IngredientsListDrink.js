@@ -8,8 +8,6 @@ function IngredientsListDrink({ ingredients, id }) {
   const [select, setSelect] = useState('');
 
   const trabamento = () => {
-    console.log('oi');
-    console.log(ingredients);
     let desmarcado = ingredients;
     let tratadoMarc = [];
 

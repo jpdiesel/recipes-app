@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import context from '../../Context/Context';
 import favoritesDetails from '../../Functions/remove';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import Button from './buttons/Button';
 import './FoodDetails.css';
 
 export default function FoodDetails({ history }) {
@@ -43,11 +44,6 @@ export default function FoodDetails({ history }) {
       strVideo,
       idMeal,
     } = foodDetails;
-
-    // const copyToClipboard = () => {
-    //   navigator.clipboard.writeText(`http://localhost:3000/foods/${idMeal}`);
-    //   setFoodCopiedLink(true);
-    // };
 
     const favorite = () => {
       if (favoritedFood) {
@@ -131,15 +127,7 @@ export default function FoodDetails({ history }) {
             </div>
           ))}
         </section>
-        <Link to={ `/foods/${idMeal}/in-progress` }>
-          <button
-            className="start-recipe"
-            type="button"
-            data-testid="start-recipe-btn"
-          >
-            Start Recipe
-          </button>
-        </Link>
+        <Button id={ idMeal } pagina="foods" ingredients={ ingredients } />
       </div>);
   };
 
