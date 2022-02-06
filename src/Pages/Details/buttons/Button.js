@@ -8,17 +8,28 @@ function Button({ id, pagina, ingredients }) {
   const { selecionado, verificaCheck } = useContext(context);
   const [incompleto, setIncompleto] = useState(false);
   const [completo, setCompleto] = useState(false);
+  const [completoDrink, setCompletoDrink] = useState(false);
 
   useEffect(() => {
     const pag = pagina === 'foods' ? 'meals' : 'cocktails';
-
     verificaCheck(id, pag);
+
+    const local = JSON.parse(localStorage.getItem('doneRecipes'));
+
+    if (local) {
+      const verifica = local.filter((atual) => atual.id === id);
+      if (verifica.length > 0) {
+        setCompletoDrink(true);
+      }
+    }
   }, []);
 
   useEffect(() => {
-    console.log(ingredients);
-    console.log(selecionado);
-    if (ingredients && selecionado && ingredients.length === selecionado.length) {
+    if (
+      ingredients
+      && selecionado
+      && ingredients.length === selecionado.length
+    ) {
       console.log('completo');
       setCompleto(true);
     } else if (selecionado) {
@@ -29,7 +40,7 @@ function Button({ id, pagina, ingredients }) {
   return (
     <Link
       to={ `/${pagina}/${id}/in-progress` }
-      className={ completo ? 'removerButton' : '' }
+      className={ completo || completoDrink ? 'removerButton' : '' }
     >
       <button
         className="start-recipe"
