@@ -120,16 +120,12 @@ export default function DrinksDetails({ history }) {
             </div>
           ))}
         </section>
-        {/* {ingredients
-          ? <Button id={ id } pagina="drinks" ingredients={ ingredients } />
-          : null} */}
         <Button id={ id } pagina="drinks" ingredients={ ingredients } />
       </div>);
   };
 
   useEffect(() => {
     (async () => {
-      // const { pathname } = history.location;
       const lastItem = pathname.substring(pathname.lastIndexOf('/') + 1);
       const URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
       listIngredients(drinksDetails);

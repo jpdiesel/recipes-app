@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 import context from '../../../Context/Context';
 import './button.css';
 
-function Button({ id, pagina, ingredients }) {
+function Button({ id, pagina }) {
   const { selecionado, verificaCheck } = useContext(context);
   const [incompleto, setIncompleto] = useState(false);
-  const [completo, setCompleto] = useState(false);
   const [completoDrink, setCompletoDrink] = useState(false);
 
   useEffect(() => {
@@ -25,33 +24,31 @@ function Button({ id, pagina, ingredients }) {
   }, []);
 
   useEffect(() => {
-    if (
-      ingredients
-      && selecionado
-      && ingredients.length === selecionado.length
-    ) {
-      console.log('completo');
-      setCompleto(true);
-    } else if (selecionado) {
+    if (selecionado) {
       setIncompleto(true);
     }
-  }, [selecionado, id, ingredients]);
+  }, [selecionado]);
 
   return (
-    <Link
-      to={ `/${pagina}/${id}/in-progress` }
-      className={ completo || completoDrink ? 'removerButton' : '' }
-    >
-      <button
-        className="start-recipe"
-        type="button"
-        data-testid="start-recipe-btn"
-      // onClick={ history.push(`/${pagina}/${id}/in-progress`) }
-      >
-        {incompleto ? 'Continue Recipe' : 'Start Recipe'}
-        {/* Start Recipe */}
-      </button>
-    </Link>
+    <div>
+      {
+        !completoDrink
+          ? (
+            <Link
+              to={ `/${pagina}/${id}/in-progress` }
+            >
+              <button
+                className="start-recipe"
+                type="button"
+                data-testid="start-recipe-btn"
+              >
+                {incompleto ? 'Continue Recipe' : 'Start Recipe'}
+              </button>
+            </Link>
+          )
+          : null
+      }
+    </div>
 
   );
 }
@@ -59,7 +56,6 @@ function Button({ id, pagina, ingredients }) {
 Button.propTypes = {
   id: PropTypes.string.isRequired,
   pagina: PropTypes.string.isRequired,
-  ingredients: PropTypes.shape([]).isRequired,
 };
 
 export default Button;
