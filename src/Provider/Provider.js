@@ -30,6 +30,8 @@ function Provider({ children }) {
   const [favoritedDrink, setFavoritedDrink] = useState(false);
   const [favoritedFood, setFavoritedFood] = useState(false);
   const [exFoodsNationalities, setExFoodsNationalities] = useState([]);
+  const [selecionado, setSelecionado] = useState('');
+  const [botao, setBotao] = useState(false);
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleData = (data) => {
@@ -99,6 +101,14 @@ function Provider({ children }) {
     setFoodCopiedLink(true);
   };
 
+  //  verifica se ja foi selecionado
+  const verificaCheck = (id, fonte) => {
+    const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (local && local[fonte] && local[fonte][id]) {
+      setSelecionado(local[fonte][id]);
+    }
+  };
+
   const contextValue = {
     copyToClipboard,
     copiedFoodLink,
@@ -160,6 +170,10 @@ function Provider({ children }) {
     setFavoritedFood,
     exFoodsNationalities,
     setExFoodsNationalities,
+    verificaCheck,
+    selecionado,
+    botao,
+    setBotao,
   };
   return (
     <context.Provider value={ contextValue }>

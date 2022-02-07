@@ -5,6 +5,7 @@ import favoritesDetails from '../../../Functions/remove';
 import blackHeartIcon from '../../../images/blackHeartIcon.svg';
 import shareIcon from '../../../images/shareIcon.svg';
 import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
+import IngredientsListFoods from './IngredientsListFoods';
 
 function InProgressFoods({ history }) {
   const [response, setResponse] = useState([]);
@@ -16,6 +17,8 @@ function InProgressFoods({ history }) {
     validacao,
     ingredients,
     listIngredients,
+    verificaCheck,
+    botao,
   } = useContext(context);
 
   // pegar id do URL
@@ -42,16 +45,16 @@ function InProgressFoods({ history }) {
     (async () => {
       // pegar dados da API
       const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-      console.log(URL);
       const { meals } = await api(URL);
       setResponse(meals[0]);
+      verificaCheck(id, 'meals');
     })();
   }, []);
 
   const concluido = () => {
     const { strMeal, strCategory, strMealThumb, strArea, strTags } = response;
 
-    // busca a data atual: https://www.horadecodar.com.br/2021/04/03/como-pegar-a-data-atual-com-javascript/
+    // busca a data atual no site: https://www.horadecodar.com.br/2021/04/03/como-pegar-a-data-atual-com-javascript/
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0');
@@ -134,35 +137,21 @@ function InProgressFoods({ history }) {
                 </button>
               )}
             {/* Lista de igredientes */}
-            <div className="list-group">
-              {ingredients ? ingredients.map((atual, index) => (
-                <label
-                  key={ index }
-                  className="list-group-item"
-                  htmlFor={ `Imput-${index}` }
-                  data-testid={ `${index}-ingredient-step` }
-                >
-                  <input
-                    className="form-check-input me-1"
-                    type="checkbox"
-                    value={ atual }
-                    id={ `Imput-${index}` }
+            {ingredients
+              ? <IngredientsListFoods ingredients={ ingredients } id={ id } />
+              : null}
 
-                  />
-                  { atual }
-                </label>
-              )) : null}
-            </div>
             {/* Instruções */}
             <p data-testid="instructions">{response.strInstructions}</p>
           </>
         ) : null}
+
       {/* Botão de finalizar receita */}
       <button
         type="button"
         data-testid="finish-recipe-btn"
         className="finish-recipe"
-        // src={ whiteHeartIcon }
+        disabled={ !botao }
         onClick={ () => concluido() }
       >
         Finish Recipe

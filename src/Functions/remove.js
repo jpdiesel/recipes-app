@@ -1,3 +1,4 @@
+// Adiciona os bebidas como favorito
 const addDrinks = (apiNew) => {
   const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
 
@@ -36,6 +37,7 @@ const addDrinks = (apiNew) => {
   }
 };
 
+// Adiciona as comidas como favorito
 const addFoods = (apiNew) => {
   const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
   const { idMeal, strMeal, strCategory, strMealThumb, strArea } = apiNew;
@@ -67,6 +69,7 @@ const addFoods = (apiNew) => {
   }
 };
 
+// Remove as bebidas do favorito
 const removerDrinks = (apiNew) => {
   const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
 
@@ -89,11 +92,11 @@ const removerDrinks = (apiNew) => {
   };
 
   const atual = local.filter((acc) => acc.id !== salvo.id);
-  console.log(atual);
 
   localStorage.setItem('favoriteRecipes', JSON.stringify(atual));
 };
 
+// Remove as comidas do favorito
 const removerFoods = (apiNew) => {
   const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
   const { idMeal, strMeal, strCategory, strMealThumb, strArea } = apiNew;
@@ -113,7 +116,54 @@ const removerFoods = (apiNew) => {
   localStorage.setItem('favoriteRecipes', JSON.stringify(atual));
 };
 
-const favoritesDetails = (fonte, api) => {
+const checkDrinks = ({ target }, id) => {
+  const { checked, value } = target;
+  let antigo = JSON.parse(localStorage.getItem('inProgressRecipes'));
+
+  if (antigo && antigo.cocktails) {
+    if (checked && !antigo.cocktails[id]) {
+      antigo = { cocktails: { ...antigo.cocktails, [id]: [value] } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(antigo));
+    } else if (checked && antigo.cocktails[id]) {
+      const feitos = [...antigo.cocktails[id], value];
+      antigo = { cocktails: { ...antigo.cocktails, [id]: feitos } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(antigo));
+    } else if (!checked) {
+      const rew = antigo.cocktails[id].filter((atual) => atual !== value);
+      antigo = { cocktails: { ...antigo.cocktails, [id]: rew } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(antigo));
+    }
+  } else if (checked) {
+    antigo = { cocktails: { [id]: [value] } };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(antigo));
+  }
+};
+
+const checkFoods = ({ target }, id) => {
+  const { checked, value } = target;
+  let antigo = JSON.parse(localStorage.getItem('inProgressRecipes'));
+
+  if (antigo && antigo.meals) {
+    if (checked && !antigo.meals[id]) {
+      antigo = { meals: { ...antigo.meals, [id]: [value] } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(antigo));
+    } else if (checked && antigo.meals[id]) {
+      const feitos = [...antigo.meals[id], value];
+      antigo = { meals: { ...antigo.meals, [id]: feitos } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(antigo));
+    } else if (!checked) {
+      const rew = antigo.meals[id].filter((atual) => atual !== value);
+      antigo = { meals: { ...antigo.meals, [id]: rew } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(antigo));
+    }
+  } else if (checked) {
+    antigo = { meals: { [id]: [value] } };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(antigo));
+  }
+};
+
+// identifica o que a requisição quer fazer
+const favoritesDetails = (fonte, api, id) => {
   if (fonte === 'drinks') {
     addDrinks(api);
   } else if (fonte === 'foods') {
@@ -122,6 +172,10 @@ const favoritesDetails = (fonte, api) => {
     removerDrinks(api);
   } else if (fonte === 'removeFoods') {
     removerFoods(api);
+  } else if (fonte === 'drinksIngredients') {
+    checkDrinks(api, id);
+  } else if (fonte === 'foodsIngredients') {
+    checkFoods(api, id);
   }
 };
 

@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import context from '../../Context/Context';
 import favoritesDetails from '../../Functions/remove';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import Button from './buttons/Button';
 import './DrinksDetails.css';
 
 export default function DrinksDetails({ history }) {
@@ -21,6 +22,11 @@ export default function DrinksDetails({ history }) {
     setFavoritedDrink,
     validacao,
   } = useContext(context);
+
+  // pegar id do URL
+  const { pathname } = history.location;
+  const FIXO = 1;
+  const id = pathname.substring(pathname.lastIndexOf('/') + FIXO);
 
   useEffect(() => {
     (async () => {
@@ -114,21 +120,12 @@ export default function DrinksDetails({ history }) {
             </div>
           ))}
         </section>
-        <Link to={ `/drinks/${idDrink}/in-progress` }>
-          <button
-            className="start-recipe"
-            type="button"
-            data-testid="start-recipe-btn"
-          >
-            Start Recipe
-          </button>
-        </Link>
+        <Button id={ id } pagina="drinks" ingredients={ ingredients } />
       </div>);
   };
 
   useEffect(() => {
     (async () => {
-      const { pathname } = history.location;
       const lastItem = pathname.substring(pathname.lastIndexOf('/') + 1);
       const URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${lastItem}`;
       listIngredients(drinksDetails);
